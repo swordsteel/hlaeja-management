@@ -13,8 +13,10 @@ dependencies {
     implementation(hlaeja.kotlinx.coroutines)
     implementation(hlaeja.projectreactor.kotlin.reactor.extensions)
     implementation(hlaeja.springboot.starter.actuator)
+    implementation(hlaeja.springboot.starter.security)
     implementation(hlaeja.springboot.starter.thymeleaf)
     implementation(hlaeja.springboot.starter.webflux)
+    implementation(hlaeja.thymeleaf.spring.security)
 
     testImplementation(hlaeja.assertj.core)
     testImplementation(hlaeja.kotlin.test.junit5)
