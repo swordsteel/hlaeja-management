@@ -1,0 +1,59 @@
+spring:
+  profiles:
+    active: development
+  application:
+    name: "%APP_NAME%"
+    version: "%APP_VERSION%"
+    build:
+      time: "%APP_BUILD_TIME%"
+      os:
+        name: "%APP_BUILD_OS_NAME%"
+        version: "%APP_BUILD_OS_VERSION%"
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: "health,info"
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+
+---
+###############################
+### Development environment ###
+###############################
+spring:
+  config:
+    activate:
+      on-profile: development
+  # Templates reloading during development
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    cache: false
+  # Static resources reloading during development
+  web:
+    resources:
+      static-locations: file:src/main/resources/static/
+
+---
+##########################
+### Docker environment ###
+##########################
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+---
+##############################
+### Production environment ###
+##############################
+spring:
+  config:
+    activate:
+      on-profile: production
