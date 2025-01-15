@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Goodbye</title>
+  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
+</head>
+<body>
+<main>
+  <h1>You are logged out</h1>
+  <hr>
+  <p>We hope to see you again soon!</p>
+  <a th:href="@{/login}">Login Again</a>
+</main>
+<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+</body>
+</html>

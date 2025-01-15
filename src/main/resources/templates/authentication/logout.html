@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Logout</title>
+  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
+</head>
+<body>
+<main>
+  <h1>Logout</h1>
+  <hr>
+  <p>Are you sure you want to logout?</p>
+  <form id="logoutForm" th:action="@{/logout}" th:method="post"></form>
+  <button type="submit" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</button>
+</main>
+<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+</body>
+</html>
