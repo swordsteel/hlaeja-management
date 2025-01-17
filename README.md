@@ -7,6 +7,7 @@ In realms of connectedness, where devices roam free, A nexus of management, harm
 | name                   | required | info                    |
 |------------------------|:--------:|-------------------------|
 | spring.profiles.active | &check;  | Spring Boot environment |
+| jwt.public-key         | &check;  | JWT public key file     |
 
 *Required: &check; can be stored as text, and &cross; need to be stored as secret.*
 
@@ -15,6 +16,12 @@ In realms of connectedness, where devices roam free, A nexus of management, harm
 Run `release.sh` script from `master` branch.
 
 ## Development Information
+
+### Public RSA Key
+
+This service uses the public key from **[Hlæja Account Register](https://github.com/swordsteel/hlaeja-account-registry)** to identify users. To set up user identification for local development, copy the `public_key.pem` file from the `./cert` directory in **Hlæja Account Register** into the `./cert` directory of this project.
+
+*Note: For more information on generating RSA keys, please refer to our [generate RSA key](https://github.com/swordsteel/hlaeja-development/blob/master/doc/rsa_key.md) documentation.*
 
 ### Global Setting
 

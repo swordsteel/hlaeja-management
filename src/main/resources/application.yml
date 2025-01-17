@@ -23,6 +23,9 @@ management:
     info:
       enabled: true
 
+jwt:
+  public-key: cert/public_key.pem
+
 ---
 ###############################
 ### Development environment ###
