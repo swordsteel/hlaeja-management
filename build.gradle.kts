@@ -13,6 +13,7 @@ dependencies {
     implementation(hlaeja.kotlin.logging)
     implementation(hlaeja.kotlin.reflect)
     implementation(hlaeja.kotlinx.coroutines)
+    implementation(hlaeja.library.hlaeja.common.messages)
     implementation(hlaeja.library.hlaeja.jwt)
     implementation(hlaeja.projectreactor.kotlin.reactor.extensions)
     implementation(hlaeja.springboot.starter.actuator)

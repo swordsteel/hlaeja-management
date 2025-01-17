@@ -1,2 +1,4 @@
 jwt:
   public-key: cert/valid-public-key.pem
+account-registry:
+  url: http://localhost

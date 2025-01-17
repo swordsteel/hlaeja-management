@@ -43,6 +43,9 @@ spring:
     resources:
       static-locations: file:src/main/resources/static/
 
+account-registry:
+  url: http://localhost:9050
+
 ---
 ##########################
 ### Docker environment ###
@@ -51,6 +54,9 @@ spring:
   config:
     activate:
       on-profile: docker
+
+account-registry:
+  url: http://AccountRegistry:8080
 
 ---
 ##############################
