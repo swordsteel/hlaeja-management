@@ -24,4 +24,13 @@ data class RemoteAuthentication(
     override fun setAuthenticated(isAuthenticated: Boolean) {
         authenticated = isAuthenticated
     }
+
+    fun hasRole(role: String): Boolean {
+        authorities.forEach {
+            if (it.authority.equals("role_$role", true)) {
+                return true
+            }
+        }
+        return false
+    }
 }

@@ -40,5 +40,6 @@ class SecurityConfiguration {
         "/actuator/**",
         "/login",
         "/logout",
+        "/",
     )
 }

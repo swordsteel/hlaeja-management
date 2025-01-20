@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Home Pages</title>
+  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
+</head>
+<body>
+<main>
+  <h1>Welcome</h1>
+  <hr>
+  <!--/*@thymesVar id="remoteUser" type="ltd.hlaeja.security.RemoteAuthentication"*/-->
+  <div th:if="${remoteUser.hasRole('admin')}">
+    You are an admin!
+  </div>
+  <div th:if="${remoteUser.hasRole('user')}">
+    You are a user!
+  </div>
+  <p>This is welcome pages and you're a user!</p>
+  <a href="/logout">Logout</a>
+</main>
+<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+</body>
+</html>
