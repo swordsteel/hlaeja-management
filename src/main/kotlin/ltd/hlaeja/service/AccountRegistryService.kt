@@ -1,15 +1,20 @@
 package ltd.hlaeja.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import ltd.hlaeja.library.accountRegistry.Account
 import ltd.hlaeja.library.accountRegistry.Authentication
 import ltd.hlaeja.property.AccountRegistryProperty
+import ltd.hlaeja.util.accountRegistryAccounts
 import ltd.hlaeja.util.accountRegistryAuthenticate
+import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.security.authentication.AuthenticationServiceException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientRequestException
 import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.web.server.ResponseStatusException
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 private val log = KotlinLogging.logger {}
@@ -43,4 +48,10 @@ class AccountRegistryService(
                 }
             }
         }
+
+    fun getAccounts(
+        page: Int,
+        size: Int,
+    ): Flux<Account.Response> = webClient.accountRegistryAccounts(page, size, property)
+        .onErrorResume { error -> Flux.error(ResponseStatusException(BAD_REQUEST, error.message, error)) }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Home Pages</title>
+  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
+</head>
+<body>
+<main>
+  <h1>Test</h1>
+  <hr>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr th:each="item : ${items}">
+      <td th:text="${item.id}">ID</td>
+      <td th:text="${item.timestamp}">timestamp</td>
+      <td th:text="${item.username}">username</td>
+    </tr>
+  </table>
+
+  <a th:href="@{/account(page=${page}+1, size=${size})}">Next</a>
+  <a th:href="@{/account(page=${page}-1, size=${size})}" th:unless="${page == 1}">Previous</a>
+
+  <br>
+  <a href="/logout">Logout</a>
+</main>
+<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+</body>
+</html>

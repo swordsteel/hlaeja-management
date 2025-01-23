@@ -31,7 +31,12 @@ class SecurityConfiguration {
 
     private fun authorizeExchange(authorizeExchange: AuthorizeExchangeSpec) = authorizeExchange
         .publicPaths().permitAll()
+        .adminPaths().hasRole("ADMIN")
         .anyExchange().authenticated()
+
+    private fun AuthorizeExchangeSpec.adminPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
+        "/account/**"
+    )
 
     private fun AuthorizeExchangeSpec.publicPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
         "/css/**",

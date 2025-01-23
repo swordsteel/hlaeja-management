@@ -11,6 +11,7 @@
   <!--/*@thymesVar id="remoteUser" type="ltd.hlaeja.security.RemoteAuthentication"*/-->
   <div th:if="${remoteUser.hasRole('admin')}">
     You are an admin!
+    <a href="/account">Account</a>
   </div>
   <div th:if="${remoteUser.hasRole('user')}">
     You are a user!
