@@ -8,6 +8,7 @@
 <main>
   <h1>Test</h1>
   <hr>
+  <div>Show page <span th:text="${pagination.page}"/> items <span th:text="${pagination.start}"/> - <span th:text="${pagination.end}"/></div>
   <table>
     <tr>
       <th>Id</th>
@@ -20,10 +21,18 @@
       <td th:text="${item.username}">username</td>
     </tr>
   </table>
-
-  <a th:href="@{/account(page=${page}+1, size=${size})}">Next</a>
-  <a th:href="@{/account(page=${page}-1, size=${size})}" th:unless="${page == 1}">Previous</a>
-
+  <div th:if="${pagination.showSize}">
+    <span th:if="${pagination.first}">Previous</span>
+    <a th:unless="${pagination.first}" th:href="@{'/account/page-' + ${pagination.previous} + '/show-' + ${size}}">Previous</a>
+    <a th:if="${pagination.hasMore}" th:href="@{'/account/page-' + ${pagination.next} + '/show-' + ${size}}">Next</a>
+    <span th:unless="${pagination.hasMore}">Next</span>
+  </div>
+  <div th:unless="${pagination.showSize}">
+    <span th:if="${pagination.first}">Previous</span>
+    <a th:unless="${pagination.first}" th:href="@{'/account/page-' + ${pagination.previous}}">Previous</a>
+    <a th:if="${pagination.hasMore}" th:href="@{'/account/page-' + ${pagination.next}}">Next</a>
+    <span th:unless="${pagination.hasMore}">Next</span>
+  </div>
   <br>
   <a href="/logout">Logout</a>
 </main>
