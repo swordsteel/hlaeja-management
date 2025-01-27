@@ -14,11 +14,13 @@
       <th>Id</th>
       <th>Name</th>
       <th>Description</th>
+      <th>Actions</th>
     </tr>
     <tr th:each="item : ${items}">
       <td th:text="${item.id}">ID</td>
       <td th:text="${item.timestamp}">timestamp</td>
       <td th:text="${item.username}">username</td>
+      <td><a th:href="@{/account/edit-{id}(id = ${item.id})}">Edit</a></td>
     </tr>
   </table>
   <div th:if="${pagination.showSize}">

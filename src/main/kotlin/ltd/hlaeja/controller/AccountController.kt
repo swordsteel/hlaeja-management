@@ -1,9 +1,12 @@
 package ltd.hlaeja.controller
 
+import java.util.UUID
 import ltd.hlaeja.dto.Pagination
+import ltd.hlaeja.exception.PasswordException
 import ltd.hlaeja.exception.UsernameDuplicateException
 import ltd.hlaeja.form.AccountForm
 import ltd.hlaeja.service.AccountRegistryService
+import ltd.hlaeja.util.toAccountForm
 import ltd.hlaeja.util.toAccountRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -24,11 +27,22 @@ class AccountController(
         const val DEFAULT_SIZE: Int = 25
     }
 
+    @GetMapping("/edit-{account}")
+    fun getEditAccount(
+        @PathVariable account: UUID,
+        model: Model
+    ): Mono<String> = accountRegistryService.getAccount(account)
+        .doOnNext {
+            model.addAttribute("account", account)
+            model.addAttribute("accountForm", it.toAccountForm())
+        }
+        .then(Mono.just("account/edit"))
+
     @GetMapping("/create")
     fun getCreateAccount(
         model: Model,
     ): Mono<String> = Mono.just("account/create")
-        .doOnNext { model.addAttribute("accountForm", AccountForm("", "", "", "", true)) }
+        .doOnNext { model.addAttribute("accountForm", AccountForm("", "")) }
 
     @PostMapping("/create")
     fun postCreateAccount(
@@ -43,6 +57,7 @@ class AccountController(
             .onErrorResume { error ->
                 val errorMessage = when (error) {
                     is UsernameDuplicateException -> "Username already exists. Please choose another."
+                    is PasswordException -> error.message
                     else -> "An unexpected error occurred. Please try again later."
                 }
                 model.addAttribute("errorMessage", errorMessage)

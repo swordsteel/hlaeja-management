@@ -1,10 +1,12 @@
 package ltd.hlaeja.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import java.util.UUID
 import ltd.hlaeja.exception.AccountRegistryException
 import ltd.hlaeja.library.accountRegistry.Account
 import ltd.hlaeja.library.accountRegistry.Authentication
 import ltd.hlaeja.property.AccountRegistryProperty
+import ltd.hlaeja.util.accountRegistryAccount
 import ltd.hlaeja.util.accountRegistryAccounts
 import ltd.hlaeja.util.accountRegistryAuthenticate
 import ltd.hlaeja.util.accountRegistryCreate
@@ -63,6 +65,16 @@ class AccountRegistryService(
         .onErrorResume { error ->
             when (error) {
                 is AccountRegistryException -> Mono.error(error)
+                else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
+            }
+        }
+
+    fun getAccount(
+        account: UUID,
+    ): Mono<Account.Response> = webClient.accountRegistryAccount(account, property)
+        .onErrorResume { error ->
+            when (error) {
+                is ResponseStatusException -> Mono.error(error)
                 else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
             }
         }
