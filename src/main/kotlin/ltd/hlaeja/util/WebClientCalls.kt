@@ -1,8 +1,12 @@
 package ltd.hlaeja.util
 
+import ltd.hlaeja.exception.AccountRegistryException
+import ltd.hlaeja.exception.UsernameDuplicateException
 import ltd.hlaeja.library.accountRegistry.Account
 import ltd.hlaeja.library.accountRegistry.Authentication
 import ltd.hlaeja.property.AccountRegistryProperty
+import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.http.HttpStatus.LOCKED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.UNAUTHORIZED
@@ -28,8 +32,19 @@ fun WebClient.accountRegistryAuthenticate(
 fun WebClient.accountRegistryAccounts(
     page: Int,
     size: Int,
-    property: AccountRegistryProperty
+    property: AccountRegistryProperty,
 ): Flux<Account.Response> = get()
     .uri("${property.url}/accounts?page=$page&size=$size".also(::logCall))
     .retrieve()
     .bodyToFlux(Account.Response::class.java)
+
+fun WebClient.accountRegistryCreate(
+    request: Account.Request,
+    property: AccountRegistryProperty,
+): Mono<Account.Response> = post()
+    .uri("${property.url}/account".also(::logCall))
+    .bodyValue(request)
+    .retrieve()
+    .onStatus(CONFLICT::equals) { throw UsernameDuplicateException() }
+    .onStatus(BAD_REQUEST::equals) { throw AccountRegistryException("Remote service returned 400") }
+    .bodyToMono(Account.Response::class.java)

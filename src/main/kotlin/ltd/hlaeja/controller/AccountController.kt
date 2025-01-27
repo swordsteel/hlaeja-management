@@ -1,11 +1,16 @@
 package ltd.hlaeja.controller
 
 import ltd.hlaeja.dto.Pagination
+import ltd.hlaeja.exception.UsernameDuplicateException
+import ltd.hlaeja.form.AccountForm
 import ltd.hlaeja.service.AccountRegistryService
+import ltd.hlaeja.util.toAccountRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import reactor.core.publisher.Mono
 
@@ -17,6 +22,32 @@ class AccountController(
     companion object {
         const val DEFAULT_PAGE: Int = 1
         const val DEFAULT_SIZE: Int = 25
+    }
+
+    @GetMapping("/create")
+    fun getCreateAccount(
+        model: Model,
+    ): Mono<String> = Mono.just("account/create")
+        .doOnNext { model.addAttribute("accountForm", AccountForm("", "", "", "", true)) }
+
+    @PostMapping("/create")
+    fun postCreateAccount(
+        @ModelAttribute("accountForm") accountForm: AccountForm,
+        model: Model,
+    ): Mono<String> {
+        return accountRegistryService.addAccount(accountForm.toAccountRequest())
+            .map {
+                model.addAttribute("success", true)
+                "redirect:/account"
+            }
+            .onErrorResume { error ->
+                val errorMessage = when (error) {
+                    is UsernameDuplicateException -> "Username already exists. Please choose another."
+                    else -> "An unexpected error occurred. Please try again later."
+                }
+                model.addAttribute("errorMessage", errorMessage)
+                Mono.just("account/create")
+            }
     }
 
     @GetMapping
@@ -49,4 +80,3 @@ class AccountController(
         }
         .then(Mono.just("account/users"))
 }
-

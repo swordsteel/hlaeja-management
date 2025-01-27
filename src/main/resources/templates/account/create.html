@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Home Pages</title>
+  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
+</head>
+<body>
+<main>
+  <h1>Test create user</h1>
+  <hr>
+  <form th:action="@{/account/create}" th:method="post">
+    <!-- Display error message if present -->
+    <div th:if="${errorMessage != null}" style="color: red; margin-bottom: 10px;">
+      <span th:text="${errorMessage}">Error Message</span>
+    </div>
+
+    <!-- Username -->
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" th:field="*{accountForm.username}" required/>
+    </div>
+
+    <!-- Password -->
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required/>
+    </div>
+
+    <!-- Re-enter Password -->
+    <div>
+      <label for="passwordConfirm">Re-enter Password:</label>
+      <input type="password" id="passwordConfirm" name="passwordConfirm" required/>
+      <span id="passwordMatchMessage"></span>
+    </div>
+
+    <!-- Role -->
+    <div>
+      <label for="role">Role:</label>
+      <select id="role" name="role" th:field="*{accountForm.role}" required>
+        <option value="user">User</option>
+        <option value="registered">Registered</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+
+    <!-- Enabled -->
+    <div>
+      <label for="enabled">Enabled:</label>
+      <input type="checkbox" id="enabled" name="enabled" th:field="*{accountForm.enabled}"/>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit">Create User</button>
+  </form>
+  <br>
+  <a href="/account">Account</a>
+  <a href="/logout">Logout</a><br>
+</main>
+<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+<script>
+  // Get password fields
+  const password = document.getElementById('password');
+  const passwordConfirm = document.getElementById('passwordConfirm');
+  const passwordMatchMessage = document.getElementById('passwordMatchMessage');
+
+  // Function to check if passwords match
+  function checkPasswordMatch() {
+    if (password.value === passwordConfirm.value) {
+      passwordMatchMessage.textContent = 'Passwords match!';
+      passwordMatchMessage.style.color = 'green';
+    } else {
+      passwordMatchMessage.textContent = 'Passwords do not match!';
+      passwordMatchMessage.style.color = 'red';
+    }
+  }
+
+  // Add event listeners to both password fields
+  password.addEventListener('input', checkPasswordMatch);
+  passwordConfirm.addEventListener('input', checkPasswordMatch);
+
+  // Form submit validation
+  document.querySelector('form').addEventListener('submit', function(e) {
+    if (password.value !== passwordConfirm.value) {
+      alert('Passwords do not match!');
+      e.preventDefault();
+    }
+  });
+</script>
+</body>
+</html>
