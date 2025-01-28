@@ -10,6 +10,7 @@ import ltd.hlaeja.util.accountRegistryAccount
 import ltd.hlaeja.util.accountRegistryAccounts
 import ltd.hlaeja.util.accountRegistryAuthenticate
 import ltd.hlaeja.util.accountRegistryCreate
+import ltd.hlaeja.util.accountRegistryUpdate
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.security.authentication.AuthenticationServiceException
 import org.springframework.security.core.AuthenticationException
@@ -75,6 +76,17 @@ class AccountRegistryService(
         .onErrorResume { error ->
             when (error) {
                 is ResponseStatusException -> Mono.error(error)
+                else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
+            }
+        }
+
+    fun updateAccount(
+        account: UUID,
+        request: Account.Request,
+    ): Mono<Account.Response> = webClient.accountRegistryUpdate(account, request, property)
+        .onErrorResume { error ->
+            when (error) {
+                is AccountRegistryException -> Mono.error(error)
                 else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
             }
         }

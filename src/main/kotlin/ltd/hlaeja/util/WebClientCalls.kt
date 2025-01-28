@@ -2,10 +2,13 @@ package ltd.hlaeja.util
 
 import java.util.UUID
 import ltd.hlaeja.exception.AccountRegistryException
+import ltd.hlaeja.exception.NoChangeException
+import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.UsernameDuplicateException
 import ltd.hlaeja.library.accountRegistry.Account
 import ltd.hlaeja.library.accountRegistry.Authentication
 import ltd.hlaeja.property.AccountRegistryProperty
+import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.http.HttpStatus.LOCKED
@@ -36,7 +39,7 @@ fun WebClient.accountRegistryAccounts(
     size: Int,
     property: AccountRegistryProperty,
 ): Flux<Account.Response> = get()
-    .uri("${property.url}/accounts?page=$page&size=$size".also(::logCall))
+    .uri("${property.url}/accounts/page-$page/show-$size".also(::logCall))
     .retrieve()
     .bodyToFlux(Account.Response::class.java)
 
@@ -47,7 +50,7 @@ fun WebClient.accountRegistryCreate(
     .uri("${property.url}/account".also(::logCall))
     .bodyValue(request)
     .retrieve()
-    .onStatus(CONFLICT::equals) { throw UsernameDuplicateException() }
+    .onStatus(CONFLICT::equals) { throw UsernameDuplicateException("Remote service returned 409") }
     .onStatus(BAD_REQUEST::equals) { throw AccountRegistryException("Remote service returned 400") }
     .bodyToMono(Account.Response::class.java)
 
@@ -58,4 +61,18 @@ fun WebClient.accountRegistryAccount(
     .uri("${property.url}/account-$account".also(::logCall))
     .retrieve()
     .onStatus(NOT_FOUND::equals) { throw ResponseStatusException(NOT_FOUND) }
+    .bodyToMono(Account.Response::class.java)
+
+fun WebClient.accountRegistryUpdate(
+    account: UUID,
+    request: Account.Request,
+    property: AccountRegistryProperty,
+): Mono<Account.Response> = put()
+    .uri("${property.url}/account-$account".also(::logCall))
+    .bodyValue(request)
+    .retrieve()
+    .onStatus(ACCEPTED::equals) { throw NoChangeException("Remote service returned 202") }
+    .onStatus(BAD_REQUEST::equals) { throw AccountRegistryException("Remote service returned 400") }
+    .onStatus(NOT_FOUND::equals) { throw NotFoundException("Remote service returned 404") }
+    .onStatus(CONFLICT::equals) { throw UsernameDuplicateException("Remote service returned 409") }
     .bodyToMono(Account.Response::class.java)

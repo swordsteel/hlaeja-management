@@ -13,6 +13,9 @@
     <div th:if="${errorMessage != null}" style="color: red; margin-bottom: 10px;">
       <span th:text="${errorMessage}">Error Message</span>
     </div>
+    <div th:if="${successMessage != null}" style="color: blue; margin-bottom: 10px;">
+      <span th:text="${successMessage}">success Message</span>
+    </div>
 
     <!-- Username -->
     <div>

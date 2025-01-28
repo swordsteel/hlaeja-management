@@ -2,6 +2,8 @@ package ltd.hlaeja.controller
 
 import java.util.UUID
 import ltd.hlaeja.dto.Pagination
+import ltd.hlaeja.exception.NoChangeException
+import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.PasswordException
 import ltd.hlaeja.exception.UsernameDuplicateException
 import ltd.hlaeja.form.AccountForm
@@ -30,13 +32,44 @@ class AccountController(
     @GetMapping("/edit-{account}")
     fun getEditAccount(
         @PathVariable account: UUID,
-        model: Model
+        model: Model,
     ): Mono<String> = accountRegistryService.getAccount(account)
         .doOnNext {
             model.addAttribute("account", account)
             model.addAttribute("accountForm", it.toAccountForm())
         }
         .then(Mono.just("account/edit"))
+
+    @PostMapping("/edit-{account}")
+    fun postEditAccount(
+        @PathVariable account: UUID,
+        @ModelAttribute("accountForm") accountForm: AccountForm,
+        model: Model,
+    ): Mono<String> = Mono.just(accountForm)
+        .flatMap {
+            accountRegistryService.updateAccount(
+                account,
+                it.toAccountRequest { password -> if (password.isNullOrEmpty()) null else password },
+            )
+        }
+        .doOnNext {
+            model.addAttribute("successMessage", "Saved changes!!!")
+            model.addAttribute("account", account)
+            model.addAttribute("accountForm", it.toAccountForm())
+        }
+        .then(Mono.just("account/edit"))
+        .onErrorResume { error ->
+            val errorMessage = when (error) {
+                is NoChangeException -> Pair("successMessage", "No change to save")
+                is NotFoundException -> Pair("errorMessage", "User dont exists. how did this happen?")
+                is UsernameDuplicateException -> Pair("errorMessage", "Username already exists. Please choose another.")
+                else -> Pair("errorMessage", "An unexpected error occurred. Please try again later.")
+            }
+            model.addAttribute(errorMessage.first, errorMessage.second)
+            model.addAttribute("accountForm", accountForm)
+            model.addAttribute("account", account)
+            Mono.just("account/edit")
+        }
 
     @GetMapping("/create")
     fun getCreateAccount(
@@ -48,22 +81,27 @@ class AccountController(
     fun postCreateAccount(
         @ModelAttribute("accountForm") accountForm: AccountForm,
         model: Model,
-    ): Mono<String> {
-        return accountRegistryService.addAccount(accountForm.toAccountRequest())
-            .map {
-                model.addAttribute("success", true)
-                "redirect:/account"
+    ): Mono<String> = Mono.just(accountForm)
+        .flatMap {
+            accountRegistryService.addAccount(
+                it.toAccountRequest { password ->
+                    when {
+                        password.isNullOrEmpty() -> throw PasswordException("Password requirements failed")
+                        else -> password
+                    }
+                },
+            )
+        }
+        .map { "redirect:/account" }
+        .onErrorResume { error ->
+            val errorMessage = when (error) {
+                is UsernameDuplicateException -> "Username already exists. Please choose another."
+                is PasswordException -> error.message
+                else -> "An unexpected error occurred. Please try again later."
             }
-            .onErrorResume { error ->
-                val errorMessage = when (error) {
-                    is UsernameDuplicateException -> "Username already exists. Please choose another."
-                    is PasswordException -> error.message
-                    else -> "An unexpected error occurred. Please try again later."
-                }
-                model.addAttribute("errorMessage", errorMessage)
-                Mono.just("account/create")
-            }
-    }
+            model.addAttribute("errorMessage", errorMessage)
+            Mono.just("account/create")
+        }
 
     @GetMapping
     fun getDefaultAccounts(
