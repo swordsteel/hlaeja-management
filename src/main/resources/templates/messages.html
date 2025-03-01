@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="messageDisplay(messageList, error, styleClass)">
+  <div th:if="${messageList != null and #lists.size(messageList) > 0}" th:class="'mb-4 text-sm ' + ${styleClass}">
+    <th:block th:switch="${#lists.size(messageList)}">
+      <!-- Single Message Case -->
+      <th:block th:case="1">
+        <span th:if="${error}">Validation Error:</span>
+        <span th:unless="${error}">Validation:</span>
+        <span th:text="${messageList[0]}"></span>
+      </th:block>
+      <!-- Multiple Messages Case -->
+      <th:block th:case="*">
+        <span th:if="${error}">Validation Errors:</span>
+        <span th:unless="${error}">Validations:</span>
+        <ul class="list-none error-list-dot">
+          <li th:each="message : ${messageList}" th:text="'→ ' + ${message}"/>
+        </ul>
+      </th:block>
+    </th:block>
+  </div>
+</th:block>
+</body>
+</html>
