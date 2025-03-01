@@ -1,44 +1,67 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Home Pages</title>
-  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
-</head>
-<body>
-<main>
-  <h1>Test</h1>
-  <hr>
-  <div>Show page <span th:text="${pagination.page}"/> items <span th:text="${pagination.start}"/> - <span th:text="${pagination.end}"/></div>
-  <table>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Actions</th>
-    </tr>
-    <tr th:each="item : ${items}">
-      <td th:text="${item.id}">ID</td>
-      <td th:text="${item.timestamp}">timestamp</td>
-      <td th:text="${item.username}">username</td>
-      <td><a th:href="@{/account/edit-{id}(id = ${item.id})}">Edit</a></td>
-    </tr>
-  </table>
-  <div th:if="${pagination.showSize}">
-    <span th:if="${pagination.first}">Previous</span>
-    <a th:unless="${pagination.first}" th:href="@{'/account/page-' + ${pagination.previous} + '/show-' + ${size}}">Previous</a>
-    <a th:if="${pagination.hasMore}" th:href="@{'/account/page-' + ${pagination.next} + '/show-' + ${size}}">Next</a>
-    <span th:unless="${pagination.hasMore}">Next</span>
+<!--/*/<th:block th:replace="~{layout.html :: documentHead ('Hlaeja Management')}"/>/*/-->
+<body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
+<!--/*/<th:block th:replace="~{layout.html :: header}"/>/*/-->
+<main class="container mx-auto p-4 flex-grow">
+  <div class="bg-gray-800 p-6 rounded-lg border border-green-900">
+    <h1 class="text-lg sm:text-xl mb-4 terminal-glow">Account Registry</h1>
+    <hr class="border-green-900 mb-4">
+    <div class="flex justify-between items-center mb-4">
+      <div th:if="${pagination.start > pagination.size}" class="text-sm">
+        Show page <span th:text="${pagination.page}"/> items 0 - 0
+      </div>
+      <div th:unless="${pagination.start > pagination.size}" class="text-sm">
+        Show page <span th:text="${pagination.page}"/>
+        items <span th:text="${pagination.start}"/> -
+        <span th:text="${pagination.size}"/>
+      </div>
+      <div class="mt-[-2px]">
+        <a th:href="@{/account/create}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors text-sm">$ Create New Account</a>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <tr class="border-b border-green-900">
+          <th class="py-2 px-4 text-left">Username</th>
+          <th class="py-2 px-4 text-left">Timestamp</th>
+          <th class="py-2 px-4 text-left">Id</th>
+          <th class="py-2 px-4 text-left">Actions</th>
+        </tr>
+        <tr th:if="${items.isEmpty()}">
+          <td colspan="4" class="py-2 px-4 text-center text-green-600">No accounts found</td>
+        </tr>
+        <tr th:each="item : ${items}" class="border-b border-gray-700 hover:bg-gray-700">
+          <td class="py-2 px-4" th:text="${item.username}">username</td>
+          <td class="py-2 px-4 utcTimestamp" th:data-timestamp="${item.timestamp}">Loading...</td>
+          <td class="py-2 px-4" th:text="${item.id}">ID</td>
+          <td class="py-2 px-4"><a th:href="@{/account/edit-{id}(id = ${item.id})}">Edit</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="mt-6 text-sm" th:classappend="${pagination.showSize} ? 'space-y-2' : ''">
+      <div th:if="${pagination.showSize}" class="mt-6 flex justify-between items-center text-sm">
+        <span th:if="${pagination.first}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Previous</span>
+        <a th:unless="${pagination.first}" th:href="@{'/account/page-' + ${pagination.previous} + '/show-' + ${pagination.show}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Previous</a>
+        <a th:if="${pagination.hasMore}" th:href="@{'/account/page-' + ${pagination.next} + '/show-' + ${pagination.show}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Next</a>
+        <span th:unless="${pagination.hasMore}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Next</span>
+      </div>
+      <div th:unless="${pagination.showSize}" class="mt-6 flex justify-between items-center text-sm">
+        <span th:if="${pagination.first}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Previous</span>
+        <a th:unless="${pagination.first}" th:href="@{'/account/page-' + ${pagination.previous}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Previous</a>
+        <a th:if="${pagination.hasMore}" th:href="@{'/account/page-' + ${pagination.next}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Next</a>
+        <span th:unless="${pagination.hasMore}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Next</span>
+      </div>
+    </div>
   </div>
-  <div th:unless="${pagination.showSize}">
-    <span th:if="${pagination.first}">Previous</span>
-    <a th:unless="${pagination.first}" th:href="@{'/account/page-' + ${pagination.previous}}">Previous</a>
-    <a th:if="${pagination.hasMore}" th:href="@{'/account/page-' + ${pagination.next}}">Next</a>
-    <span th:unless="${pagination.hasMore}">Next</span>
-  </div>
-  <br>
-  <a href="/account/create">Create Account</a><br>
-  <a href="/logout">Logout</a><br>
 </main>
+<!--/*/<th:block th:replace="~{layout.html :: footer}"/>/*/-->
 <!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+<script>
+  // Assuming makeLocalTime is defined elsewhere or needs to be added
+  document.addEventListener('DOMContentLoaded', () => {
+    makeLocalTime(document.querySelectorAll('.utcTimestamp'));
+  });
+</script>
 </body>
 </html>

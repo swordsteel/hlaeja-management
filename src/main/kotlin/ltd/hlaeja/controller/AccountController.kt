@@ -1,10 +1,11 @@
 package ltd.hlaeja.controller
 
 import java.util.UUID
+import ltd.hlaeja.controller.validation.CreateGroup
+import ltd.hlaeja.controller.validation.EditGroup
 import ltd.hlaeja.dto.Pagination
 import ltd.hlaeja.exception.NoChangeException
 import ltd.hlaeja.exception.NotFoundException
-import ltd.hlaeja.exception.PasswordException
 import ltd.hlaeja.exception.UsernameDuplicateException
 import ltd.hlaeja.form.AccountForm
 import ltd.hlaeja.service.AccountRegistryService
@@ -12,6 +13,8 @@ import ltd.hlaeja.util.toAccountForm
 import ltd.hlaeja.util.toAccountRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -36,6 +39,7 @@ class AccountController(
     ): Mono<String> = accountRegistryService.getAccount(account)
         .doOnNext {
             model.addAttribute("account", account)
+            model.addAttribute("roleGroups", accountRegistryService.getRoles())
             model.addAttribute("accountForm", it.toAccountForm())
         }
         .then(Mono.just("account/edit"))
@@ -43,65 +47,93 @@ class AccountController(
     @PostMapping("/edit-{account}")
     fun postEditAccount(
         @PathVariable account: UUID,
-        @ModelAttribute("accountForm") accountForm: AccountForm,
+        @Validated(EditGroup::class) @ModelAttribute("accountForm") accountForm: AccountForm,
+        bindingResult: BindingResult,
         model: Model,
-    ): Mono<String> = Mono.just(accountForm)
-        .flatMap {
-            accountRegistryService.updateAccount(
-                account,
-                it.toAccountRequest { password -> if (password.isNullOrEmpty()) null else password },
-            )
-        }
-        .doOnNext {
-            model.addAttribute("successMessage", "Saved changes!!!")
-            model.addAttribute("account", account)
-            model.addAttribute("accountForm", it.toAccountForm())
-        }
-        .then(Mono.just("account/edit"))
-        .onErrorResume { error ->
-            val errorMessage = when (error) {
-                is NoChangeException -> Pair("successMessage", "No change to save")
-                is NotFoundException -> Pair("errorMessage", "User dont exists. how did this happen?")
-                is UsernameDuplicateException -> Pair("errorMessage", "Username already exists. Please choose another.")
-                else -> Pair("errorMessage", "An unexpected error occurred. Please try again later.")
+    ): Mono<String> {
+        val validationErrors = if (bindingResult.hasErrors()) {
+            bindingResult.allErrors.map { error ->
+                error.defaultMessage ?: "Unknown validation error"
             }
-            model.addAttribute(errorMessage.first, errorMessage.second)
-            model.addAttribute("accountForm", accountForm)
-            model.addAttribute("account", account)
-            Mono.just("account/edit")
+        } else {
+            emptyList()
         }
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("accountForm", accountForm)
+            model.addAttribute("validationErrors", validationErrors)
+            model.addAttribute("roleGroups", accountRegistryService.getRoles())
+            return Mono.just("account/edit")
+        }
+
+        return Mono.just(accountForm)
+            .flatMap { accountRegistryService.updateAccount(account, it.toAccountRequest()) }
+            .doOnNext {
+                model.addAttribute("successMessage", listOf("Saved changes!!!"))
+                model.addAttribute("account", account)
+                model.addAttribute("accountForm", it.toAccountForm())
+                model.addAttribute("roleGroups", accountRegistryService.getRoles())
+            }
+            .then(Mono.just("account/edit"))
+            .onErrorResume { error ->
+                val errorMessage = when (error) {
+                    is NoChangeException -> Pair("successMessage", "No change to save.")
+                    is NotFoundException -> Pair("validationErrors", "User dont exists. how did this happen?")
+                    is UsernameDuplicateException -> Pair(
+                        "validationErrors",
+                        "Username already exists. Please choose another.",
+                    )
+                    else -> Pair("validationErrors", "An unexpected error occurred. Please try again later.")
+                }
+
+                model.addAttribute(errorMessage.first, listOf(errorMessage.second))
+                model.addAttribute("account", account)
+                model.addAttribute("accountForm", accountForm)
+                model.addAttribute("roleGroups", accountRegistryService.getRoles())
+                Mono.just("account/edit")
+            }
+    }
 
     @GetMapping("/create")
     fun getCreateAccount(
         model: Model,
     ): Mono<String> = Mono.just("account/create")
-        .doOnNext { model.addAttribute("accountForm", AccountForm("", "")) }
+        .doOnNext {
+            model.addAttribute("accountForm", AccountForm("", emptyList()))
+            model.addAttribute("roleGroups", accountRegistryService.getRoles())
+        }
 
     @PostMapping("/create")
     fun postCreateAccount(
-        @ModelAttribute("accountForm") accountForm: AccountForm,
+        @Validated(CreateGroup::class) @ModelAttribute("accountForm") accountForm: AccountForm,
+        bindingResult: BindingResult,
         model: Model,
-    ): Mono<String> = Mono.just(accountForm)
-        .flatMap {
-            accountRegistryService.addAccount(
-                it.toAccountRequest { password ->
-                    when {
-                        password.isNullOrEmpty() -> throw PasswordException("Password requirements failed")
-                        else -> password
-                    }
-                },
-            )
-        }
-        .map { "redirect:/account" }
-        .onErrorResume { error ->
-            val errorMessage = when (error) {
-                is UsernameDuplicateException -> "Username already exists. Please choose another."
-                is PasswordException -> error.message
-                else -> "An unexpected error occurred. Please try again later."
+    ): Mono<String> {
+        val validationErrors = if (bindingResult.hasErrors()) {
+            bindingResult.allErrors.map { error ->
+                error.defaultMessage ?: "Unknown validation error"
             }
-            model.addAttribute("errorMessage", errorMessage)
-            Mono.just("account/create")
+        } else {
+            emptyList()
         }
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("accountForm", accountForm)
+            model.addAttribute("validationErrors", validationErrors)
+            model.addAttribute("roleGroups", accountRegistryService.getRoles())
+            return Mono.just("account/create")
+        }
+        return Mono.just(accountForm)
+            .flatMap { accountRegistryService.addAccount(it.toAccountRequest()) }
+            .map { "redirect:/account" }
+            .onErrorResume { error ->
+                val errorMessage = when (error) {
+                    is UsernameDuplicateException -> "Username already exists. Please choose another."
+                    else -> "An unexpected error occurred. Please try again later."
+                }
+                model.addAttribute("validationErrors", listOf(errorMessage))
+                model.addAttribute("roleGroups", accountRegistryService.getRoles())
+                Mono.just("account/create")
+            }
+    }
 
     @GetMapping
     fun getDefaultAccounts(

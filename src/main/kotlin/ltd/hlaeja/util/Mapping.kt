@@ -10,15 +10,19 @@ fun SpringAuthentication.toAuthenticationRequest(): Authentication.Request = Aut
     credentials as String,
 )
 
-fun AccountForm.toAccountRequest(operation: (CharSequence?) -> CharSequence?): Account.Request = Account.Request(
+fun AccountForm.toAccountRequest(): Account.Request = Account.Request(
     username = username,
-    password = operation(password),
+    password = if (password.isNullOrEmpty()) null else password,
     enabled = enabled,
-    roles = listOf("ROLE_${role.uppercase()}"),
+    roles = roles.map { "ROLE_${it.uppercase()}" },
 )
 
 fun Account.Response.toAccountForm(): AccountForm = AccountForm(
     username = username,
     enabled = enabled,
-    role = roles.first().removePrefix("ROLE_").lowercase(),
+    roles = roles.map {
+        it.removePrefix("ROLE_")
+            .lowercase()
+            .replaceFirstChar { char -> char.uppercase() }
+    },
 )

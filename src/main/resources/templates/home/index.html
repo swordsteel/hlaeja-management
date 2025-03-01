@@ -1,16 +1,72 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Home Pages</title>
-  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
-</head>
-<body>
-<main>
-  <h1>Test</h1>
-  <hr>
-  <p>This is a index page!</p>
-  <a href="/login">login</a>
+<!--/*/<th:block th:replace="~{layout.html :: documentHead ('Hlaeja Management')}"/>/*/-->
+<body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
+<!--/*/<th:block th:replace="~{layout.html :: header}"/>/*/-->
+
+<!-- Main Content -->
+<main class="container mx-auto p-4 flex-grow">
+  <!-- Main Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+    <!-- Sidebar -->
+    <div class="md:col-span-3">
+      <div class="bg-gray-800 p-4 rounded-lg border border-green-900">
+        <h2 class="text-base sm:text-lg mb-2 terminal-glow">System Commands</h2>
+        <ul class="space-y-2 text-sm sm:text-base">
+          <li><span class="text-green-600">$</span> status_check</li>
+          <li><span class="text-green-600">$</span> sys_reboot</li>
+          <li><span class="text-green-600">$</span> mem_info</li>
+          <li><span class="text-green-600">$</span> net_stat</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Terminal -->
+    <div class="md:col-span-6">
+      <div class="bg-gray-800 p-4 rounded-lg border border-green-900 h-64 sm:h-96 overflow-y-auto">
+        <h2 class="text-base sm:text-lg mb-2 terminal-glow">Terminal Output</h2>
+        <pre class="text-xs sm:text-sm">
+SYSTEM BOOT [OK]
+Initializing kernel... [OK]
+Mounting drives... [OK]
+Network interfaces up... [OK]
+Loading console interface... [OK]
+
+> Running diagnostics...
+CPU: 2.4GHz [85%]
+Memory: 16GB [72% used]
+Storage: 1TB [45% free]
+Network: 1Gbps [Stable]
+        </pre>
+      </div>
+    </div>
+
+    <!-- Status Panel -->
+    <div class="md:col-span-3">
+      <div class="bg-gray-800 p-4 rounded-lg border border-green-900">
+        <h2 class="text-base sm:text-lg mb-2 terminal-glow">Status</h2>
+        <div class="space-y-2 text-sm sm:text-base">
+          <p>CPU: <span class="text-green-600">Online</span></p>
+          <p>Memory: <span class="text-green-600">Stable</span></p>
+          <p>Network: <span class="text-green-600">Connected</span></p>
+          <p>Uptime: 23h 45m</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal Input -->
+  <div class="mt-4">
+    <div class="bg-gray-800 p-4 rounded-lg border border-green-900">
+      <div class="flex items-center">
+        <span class="text-green-600 mr-2">$</span>
+        <input type="text" class="bg-transparent w-full focus:outline-none text-green-400 text-sm sm:text-base" placeholder="Enter command...">
+      </div>
+    </div>
+  </div>
 </main>
+
+<!--/*/<th:block th:replace="~{layout.html :: footer}"/>/*/-->
 <!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
 </body>
 </html>

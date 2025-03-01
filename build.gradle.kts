@@ -19,6 +19,7 @@ dependencies {
     implementation(hlaeja.springboot.starter.actuator)
     implementation(hlaeja.springboot.starter.security)
     implementation(hlaeja.springboot.starter.thymeleaf)
+    implementation(hlaeja.springboot.starter.validation)
     implementation(hlaeja.springboot.starter.webflux)
     implementation(hlaeja.thymeleaf.spring.security)
 

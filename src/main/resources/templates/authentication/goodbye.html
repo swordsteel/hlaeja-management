@@ -1,16 +1,28 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Goodbye</title>
-  <!--/*/<th:block th:insert="~{layout.html :: documentHead}"/>/*/-->
-</head>
-<body>
-<main>
-  <h1>You are logged out</h1>
-  <hr>
-  <p>We hope to see you again soon!</p>
-  <a th:href="@{/login}">Login Again</a>
+<!--/*/<th:block th:replace="~{layout.html :: documentHead ('Hlaeja Management')}"/>/*/-->
+<body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
+<!--/*/<th:block th:replace="~{layout.html :: header}"/>/*/-->
+<main class="container mx-auto p-4 flex-grow flex items-center justify-center">
+  <div class="w-full max-w-md">
+    <div class="bg-gray-800 p-6 rounded-lg border border-green-900">
+      <h2 class="text-lg sm:text-xl mb-4 terminal-glow">Session Terminated</h2>
+      <pre class="text-sm mb-6 text-green-600">
+> logout initiated...
+> Saving session data... [OK]
+> Closing connections... [OK]
+> System cleanup complete... [OK]
+
+Thank you for using Hlaeja Systems.
+Goodbye.
+      </pre>
+      <div class="flex justify-center">
+        <a href="/login" class="bg-green-900 hover:bg-green-800 text-green-400 px-6 py-2 rounded border border-green-600 transition-colors">Reconnect</a>
+      </div>
+    </div>
+  </div>
 </main>
+<!--/*/<th:block th:replace="~{layout.html :: footer}"/>/*/-->
 <!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
 </body>
 </html>

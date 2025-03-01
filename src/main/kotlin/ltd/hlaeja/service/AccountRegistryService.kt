@@ -90,4 +90,11 @@ class AccountRegistryService(
                 else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
             }
         }
+
+    // TODO implement user gropes and access
+    fun getRoles(): Map<String, List<String>> = mapOf(
+        "Admin Group" to listOf("Admin"),
+        "Operations Group" to listOf("Registry"),
+        "User Group" to listOf("User"),
+    )
 }
