@@ -119,17 +119,41 @@ body {
 
 /* Selected Option Styling */
 
-select option:checked {
+select[multiple] option:checked {
   background-color: #064e3b;
   color: #BBF7D0FF;
 }
 
-select:focus option:checked {
+select[multiple]:focus option:checked {
   background: #065f46 linear-gradient(0deg, #065f46 0%, #065f46 100%);
 }
 
-select:focus option:hover,
-select option:hover {
+select[multiple]:focus option:hover,
+select[multiple] option:hover {
   background-color: #11a36f !important;
   color: #fff;
+}
+
+/* File Input Styling */
+input[type="file"] {
+  padding: 0 0;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: #14532DFF; /* green-500 */
+  color: #4ADE80FF; /* green-900 */
+  border: none;
+  padding: 6px 12px;
+  border-radius: 0; /* Flat right edge to match scrollbar */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #166534FF; /* green-600 */
+}
+
+/* Button Styling */
+button, a.inline-block {
+  font-family: 'JetBrains Mono', monospace;
 }
