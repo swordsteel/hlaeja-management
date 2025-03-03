@@ -7,7 +7,7 @@
       <!-- Single Message Case -->
       <th:block th:case="1">
         <span th:if="${error}">Validation Error:</span>
-        <span th:unless="${error}">Validation:</span>
+        <span th:unless="${error}">Information:</span>
         <span th:text="${messageList[0]}"></span>
       </th:block>
       <!-- Multiple Messages Case -->

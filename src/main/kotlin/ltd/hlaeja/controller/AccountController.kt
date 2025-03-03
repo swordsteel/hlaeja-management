@@ -1,5 +1,7 @@
 package ltd.hlaeja.controller
 
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
 import java.util.UUID
 import ltd.hlaeja.controller.validation.CreateGroup
 import ltd.hlaeja.controller.validation.EditGroup
@@ -11,6 +13,7 @@ import ltd.hlaeja.form.AccountForm
 import ltd.hlaeja.service.AccountRegistryService
 import ltd.hlaeja.util.toAccountForm
 import ltd.hlaeja.util.toAccountRequest
+import ltd.hlaeja.util.validationErrors
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -30,6 +33,8 @@ class AccountController(
     companion object {
         const val DEFAULT_PAGE: Int = 1
         const val DEFAULT_SIZE: Int = 25
+        const val MIN: Long = 1
+        const val MAX: Long = 100
     }
 
     @GetMapping("/edit-{account}")
@@ -50,22 +55,13 @@ class AccountController(
         @Validated(EditGroup::class) @ModelAttribute("accountForm") accountForm: AccountForm,
         bindingResult: BindingResult,
         model: Model,
-    ): Mono<String> {
-        val validationErrors = if (bindingResult.hasErrors()) {
-            bindingResult.allErrors.map { error ->
-                error.defaultMessage ?: "Unknown validation error"
-            }
-        } else {
-            emptyList()
-        }
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("accountForm", accountForm)
-            model.addAttribute("validationErrors", validationErrors)
-            model.addAttribute("roleGroups", accountRegistryService.getRoles())
-            return Mono.just("account/edit")
-        }
-
-        return Mono.just(accountForm)
+    ): Mono<String> = if (bindingResult.hasErrors()) {
+        model.addAttribute("accountForm", accountForm)
+        model.addAttribute("validationErrors", validationErrors(bindingResult))
+        model.addAttribute("roleGroups", accountRegistryService.getRoles())
+        Mono.just("account/edit")
+    } else {
+        Mono.just(accountForm)
             .flatMap { accountRegistryService.updateAccount(account, it.toAccountRequest()) }
             .doOnNext {
                 model.addAttribute("successMessage", listOf("Saved changes!!!"))
@@ -82,6 +78,7 @@ class AccountController(
                         "validationErrors",
                         "Username already exists. Please choose another.",
                     )
+
                     else -> Pair("validationErrors", "An unexpected error occurred. Please try again later.")
                 }
 
@@ -107,21 +104,13 @@ class AccountController(
         @Validated(CreateGroup::class) @ModelAttribute("accountForm") accountForm: AccountForm,
         bindingResult: BindingResult,
         model: Model,
-    ): Mono<String> {
-        val validationErrors = if (bindingResult.hasErrors()) {
-            bindingResult.allErrors.map { error ->
-                error.defaultMessage ?: "Unknown validation error"
-            }
-        } else {
-            emptyList()
-        }
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("accountForm", accountForm)
-            model.addAttribute("validationErrors", validationErrors)
-            model.addAttribute("roleGroups", accountRegistryService.getRoles())
-            return Mono.just("account/create")
-        }
-        return Mono.just(accountForm)
+    ): Mono<String> = if (bindingResult.hasErrors()) {
+        model.addAttribute("accountForm", accountForm)
+        model.addAttribute("roleGroups", accountRegistryService.getRoles())
+        model.addAttribute("validationErrors", validationErrors(bindingResult))
+        Mono.just("account/create")
+    } else {
+        Mono.just(accountForm)
             .flatMap { accountRegistryService.addAccount(it.toAccountRequest()) }
             .map { "redirect:/account" }
             .onErrorResume { error ->
@@ -135,33 +124,20 @@ class AccountController(
             }
     }
 
-    @GetMapping
-    fun getDefaultAccounts(
+    @GetMapping(
+        "",
+        "/page-{page}",
+        "/page-{page}/show-{show}",
+    )
+    fun getAccounts(
+        @PathVariable(required = false) @Min(MIN) page: Int = DEFAULT_PAGE,
+        @PathVariable(required = false) @Min(MIN) @Max(MAX) show: Int = DEFAULT_SIZE,
         model: Model,
-    ): Mono<String> = getAccounts(DEFAULT_PAGE, DEFAULT_SIZE, model)
-
-    @GetMapping("/page-{page}")
-    fun getAccountsPage(
-        @PathVariable page: Int,
-        model: Model,
-    ): Mono<String> = getAccounts(page, DEFAULT_SIZE, model)
-
-    @GetMapping("/page-{page}/show-{size}")
-    fun getAccountsPageSize(
-        @PathVariable page: Int,
-        @PathVariable size: Int,
-        model: Model,
-    ): Mono<String> = getAccounts(page, size, model)
-
-    private fun getAccounts(
-        page: Int,
-        size: Int,
-        model: Model,
-    ) = accountRegistryService.getAccounts(page, size)
+    ): Mono<String> = accountRegistryService.getAccounts(page, show)
         .collectList()
         .doOnNext { items ->
             model.addAttribute("items", items)
-            model.addAttribute("pagination", Pagination(page, size, items.size, DEFAULT_SIZE))
+            model.addAttribute("pagination", Pagination(page, show, items.size, DEFAULT_SIZE))
         }
         .then(Mono.just("account/users"))
 }

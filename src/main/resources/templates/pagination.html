@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="pagination(baseUrl, pagination)">
+  <div class="mt-6 text-sm" th:classappend="${pagination.showSize} ? 'space-y-2' : ''">
+    <div th:if="${pagination.showSize}" class="mt-6 flex justify-between items-center text-sm">
+      <span th:if="${pagination.first}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Previous</span>
+      <a th:unless="${pagination.first}" th:href="@{${baseUrl} + '/page-' + ${pagination.previous} + '/show-' + ${pagination.show}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Previous</a>
+      <a th:if="${pagination.hasMore}" th:href="@{${baseUrl} + '/page-' + ${pagination.next} + '/show-' + ${pagination.show}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Next</a>
+      <span th:unless="${pagination.hasMore}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Next</span>
+    </div>
+    <div th:unless="${pagination.showSize}" class="mt-6 flex justify-between items-center text-sm">
+      <span th:if="${pagination.first}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Previous</span>
+      <a th:unless="${pagination.first}" th:href="@{${baseUrl} + '/page-' + ${pagination.previous}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Previous</a>
+      <a th:if="${pagination.hasMore}" th:href="@{${baseUrl} + '/page-' + ${pagination.next}}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors">Next</a>
+      <span th:unless="${pagination.hasMore}" class="px-3 py-1 bg-gray-800 text-gray-500 rounded border border-green-900">Next</span>
+    </div>
+  </div>
+</th:block>
+</html>

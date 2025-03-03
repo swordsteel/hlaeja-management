@@ -9,6 +9,7 @@ In realms of connectedness, where devices roam free, A nexus of management, harm
 | spring.profiles.active | &check;  | Spring Boot environment |
 | jwt.public-key         | &check;  | JWT public key file     |
 | account-registry.url   | &check;  | Account Register URL    |
+| device-registry.url    | &check;  | Device Register URL     |
 
 *Required: &check; can be stored as text, and &cross; need to be stored as secret.*
 
