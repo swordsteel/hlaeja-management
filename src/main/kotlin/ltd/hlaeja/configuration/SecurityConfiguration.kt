@@ -36,6 +36,7 @@ class SecurityConfiguration {
 
     private fun AuthorizeExchangeSpec.adminPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
         "/account/**",
+        "/dev/**",
     )
 
     private fun AuthorizeExchangeSpec.publicPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
