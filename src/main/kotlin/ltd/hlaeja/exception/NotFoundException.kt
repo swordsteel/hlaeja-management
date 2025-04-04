@@ -1,7 +1,7 @@
 package ltd.hlaeja.exception
 
 @Suppress("unused")
-open class NotFoundException : AccountRegistryException {
+open class NotFoundException : HlaejaException {
 
     constructor() : super()
 

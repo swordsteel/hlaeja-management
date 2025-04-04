@@ -2,7 +2,6 @@ package ltd.hlaeja.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.util.UUID
-import ltd.hlaeja.exception.AccountRegistryException
 import ltd.hlaeja.library.accountRegistry.Account
 import ltd.hlaeja.library.accountRegistry.Authentication
 import ltd.hlaeja.property.AccountRegistryProperty
@@ -11,6 +10,8 @@ import ltd.hlaeja.util.accountRegistryAccounts
 import ltd.hlaeja.util.accountRegistryAuthenticate
 import ltd.hlaeja.util.accountRegistryCreate
 import ltd.hlaeja.util.accountRegistryUpdate
+import ltd.hlaeja.util.hlaejaErrorHandler
+import ltd.hlaeja.util.responseErrorHandler
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.security.authentication.AuthenticationServiceException
 import org.springframework.security.core.AuthenticationException
@@ -63,33 +64,18 @@ class AccountRegistryService(
     fun addAccount(
         request: Account.Request,
     ): Mono<Account.Response> = webClient.accountRegistryCreate(request, property)
-        .onErrorResume { error ->
-            when (error) {
-                is AccountRegistryException -> Mono.error(error)
-                else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
-            }
-        }
+        .onErrorResume(::hlaejaErrorHandler)
 
     fun getAccount(
         account: UUID,
     ): Mono<Account.Response> = webClient.accountRegistryAccount(account, property)
-        .onErrorResume { error ->
-            when (error) {
-                is ResponseStatusException -> Mono.error(error)
-                else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
-            }
-        }
+        .onErrorResume(::responseErrorHandler)
 
     fun updateAccount(
         account: UUID,
         request: Account.Request,
     ): Mono<Account.Response> = webClient.accountRegistryUpdate(account, request, property)
-        .onErrorResume { error ->
-            when (error) {
-                is AccountRegistryException -> Mono.error(error)
-                else -> Mono.error(ResponseStatusException(BAD_REQUEST, error.message))
-            }
-        }
+        .onErrorResume(::hlaejaErrorHandler)
 
     // TODO implement user gropes and access
     fun getRoles(): Map<String, List<String>> = mapOf(
