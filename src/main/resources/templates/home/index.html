@@ -1,72 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--/*/<th:block th:replace="~{layout.html :: documentHead ('Hlaeja Management')}"/>/*/-->
+<th:block th:replace="~{layout.html :: documentHead ('Hlaeja Management')}"/>
 <body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
-<!--/*/<th:block th:replace="~{layout.html :: header}"/>/*/-->
+<th:block th:replace="~{layout.html :: header}"/>
 
 <!-- Main Content -->
 <main class="container mx-auto p-4 flex-grow">
-  <!-- Main Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-    <!-- Sidebar -->
-    <div class="md:col-span-3">
-      <div class="bg-gray-800 p-4 rounded-lg border border-green-900">
-        <h2 class="text-base sm:text-lg mb-2 terminal-glow">System Commands</h2>
-        <ul class="space-y-2 text-sm sm:text-base">
-          <li><span class="text-green-600">$</span> status_check</li>
-          <li><span class="text-green-600">$</span> sys_reboot</li>
-          <li><span class="text-green-600">$</span> mem_info</li>
-          <li><span class="text-green-600">$</span> net_stat</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Main Terminal -->
-    <div class="md:col-span-6">
-      <div class="bg-gray-800 p-4 rounded-lg border border-green-900 h-64 sm:h-96 overflow-y-auto">
-        <h2 class="text-base sm:text-lg mb-2 terminal-glow">Terminal Output</h2>
-        <pre class="text-xs sm:text-sm">
-SYSTEM BOOT [OK]
-Initializing kernel... [OK]
-Mounting drives... [OK]
-Network interfaces up... [OK]
-Loading console interface... [OK]
-
-> Running diagnostics...
-CPU: 2.4GHz [85%]
-Memory: 16GB [72% used]
-Storage: 1TB [45% free]
-Network: 1Gbps [Stable]
-        </pre>
-      </div>
-    </div>
-
-    <!-- Status Panel -->
-    <div class="md:col-span-3">
-      <div class="bg-gray-800 p-4 rounded-lg border border-green-900">
-        <h2 class="text-base sm:text-lg mb-2 terminal-glow">Status</h2>
-        <div class="space-y-2 text-sm sm:text-base">
-          <p>CPU: <span class="text-green-600">Online</span></p>
-          <p>Memory: <span class="text-green-600">Stable</span></p>
-          <p>Network: <span class="text-green-600">Connected</span></p>
-          <p>Uptime: 23h 45m</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Terminal Input -->
   <div class="mt-4">
     <div class="bg-gray-800 p-4 rounded-lg border border-green-900">
-      <div class="flex items-center">
-        <span class="text-green-600 mr-2">$</span>
-        <input type="text" class="bg-transparent w-full focus:outline-none text-green-400 text-sm sm:text-base" placeholder="Enter command...">
+      <h2 class="text-base sm:text-lg mb-2 terminal-glow">Lorem Ipsum</h2>
+      <div class="text-green-600 space-y-4 leading-relaxed text-sm sm:text-base">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut dui non ante ultricies ultrices non a nulla. Etiam iaculis sit amet lectus sed ornare. Sed orci odio, pulvinar ac pulvinar non, auctor at nunc. In finibus massa mi, bibendum pretium quam mollis nec. Fusce venenatis tortor id lacus placerat placerat. Ut ipsum diam, fermentum commodo vehicula sit amet, aliquet sit amet dolor. Donec vel nisl sed ante pellentesque lobortis vitae a justo.</p>
+        <p>Curabitur porttitor mattis dolor, vel euismod elit malesuada id. Proin tristique tortor nec dictum blandit. Aliquam massa lacus, ornare a ultricies eget, auctor vel nisi. Phasellus sollicitudin aliquam elit, sit amet posuere urna tincidunt eu. Integer sed lorem est. Phasellus lacus nulla, bibendum eget massa ac, placerat efficitur urna. Cras eget tortor interdum, iaculis tellus vel, tincidunt est. Ut dui ante, eleifend sed sapien at, congue viverra odio. Fusce elementum interdum neque, et dapibus neque ornare ut. Suspendisse sollicitudin sed mauris quis gravida. Mauris a pellentesque velit, quis vulputate purus. Nunc varius tincidunt viverra. Fusce libero elit, scelerisque ac lacus quis, gravida lacinia turpis. Aenean nec ligula quis nisl sagittis accumsan. Vivamus gravida erat id tortor varius, at ornare augue consectetur.</p>
+        <p>Curabitur vestibulum pharetra tristique. Duis consectetur maximus nulla, et vehicula neque aliquet id. Proin dignissim lorem id eros lobortis, sed fringilla ipsum bibendum. Sed imperdiet nisi vitae tellus tempus bibendum. Duis sagittis fringilla sem sed consectetur. Duis in ex a metus dignissim congue ac eget dui. Phasellus non sodales diam, id faucibus diam. Ut ultricies scelerisque sagittis. Cras vel turpis sed dui congue volutpat aliquet pulvinar dolor. Aliquam pellentesque justo elit, sed lacinia ipsum lacinia sit amet. Morbi sit amet nisl id metus imperdiet faucibus. Nullam velit erat, porta nec nulla ullamcorper, imperdiet rhoncus enim. Nulla quis odio in arcu semper vestibulum.</p>
+        <p>Maecenas ultricies felis quis sollicitudin efficitur. Nulla facilisi. Cras ornare nec diam ac porta. Etiam ac enim ac sem iaculis feugiat non eu lectus. Nullam dolor magna, molestie a erat eu, tempus maximus sapien. Suspendisse dapibus tincidunt erat, non suscipit risus. Donec laoreet mauris velit, eu egestas tortor ultrices ac. Vivamus sed erat justo.</p>
+        <p>Aliquam non lorem et lectus pharetra suscipit vitae sed ante. Pellentesque luctus malesuada maximus. Etiam accumsan nisi tortor, sit amet aliquam ipsum imperdiet tempus. Aliquam et erat id ipsum dignissim pretium. Quisque a lacus imperdiet, sollicitudin massa quis, mattis mi. Suspendisse rhoncus sit amet dolor nec gravida. Suspendisse ac tortor turpis.</p>
       </div>
     </div>
   </div>
 </main>
 
-<!--/*/<th:block th:replace="~{layout.html :: footer}"/>/*/-->
-<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+<th:block th:replace="~{layout.html :: footer}"/>
+<th:block th:replace="~{layout.html :: script}"/>
 </body>
 </html>

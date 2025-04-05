@@ -23,15 +23,14 @@
         <th:block th:if="${remoteUser.hasRole('admin')}">
           <a href="/account" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Account</a>
           <a href="/type" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Device Type</a>
+          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ Device</a>
           <hr class="dropdown-divider">
         </th:block>
         <th:block th:if="${remoteUser.authenticated}">
-          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ diagnostics</a>
-          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ logs</a>
-          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ shutdown</a>
+          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ Node</a>
+          <hr class="dropdown-divider">
         </th:block>
         <th:block th:if="${remoteUser.authenticated}">
-          <hr class="dropdown-divider">
           <a href="/logout" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Logout</a>
         </th:block>
         <th:block th:unless="${remoteUser.authenticated}">
