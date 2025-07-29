@@ -20,7 +20,7 @@ In realms of connectedness, where devices roam free, A nexus of management, harm
 
 ## Releasing Service
 
-Run `release.sh` script from `master` branch.
+Run release pipeline from `master` branch.
 
 ## Development Information
 
