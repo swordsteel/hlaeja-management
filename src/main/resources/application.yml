@@ -11,7 +11,6 @@ spring:
         version: "%APP_BUILD_OS_VERSION%"
   session:
     timeout: 60m
-
     redis:
       namespace: "spring:session:management"
   data:
@@ -20,16 +19,17 @@ spring:
 
 management:
   endpoints:
-    enabled-by-default: false
+    access:
+      default: none
     web:
       exposure:
         include: "health,info"
   endpoint:
     health:
-      enabled: true
       show-details: always
+      access: read_only
     info:
-      enabled: true
+      access: read_only
 
 jwt:
   public-key: cert/public_key.pem
