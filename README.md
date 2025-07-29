@@ -4,12 +4,17 @@ In realms of connectedness, where devices roam free, A nexus of management, harm
 
 ## Properties for deployment
 
-| name                   | required | info                    |
-|------------------------|:--------:|-------------------------|
-| spring.profiles.active | &check;  | Spring Boot environment |
-| jwt.public-key         | &check;  | JWT public key file     |
-| account-registry.url   | &check;  | Account Register URL    |
-| device-registry.url    | &check;  | Device Register URL     |
+| name                       | required | info                    |
+|----------------------------|:--------:|-------------------------|
+| spring.profiles.active     | &check;  | Spring Boot environment |
+| spring.cache.type          |          | Cache type (redis)      |
+| spring.data.redis.host     | &check;  | Redis host              |
+| spring.data.redis.port     |          | Redis port              |
+| spring.data.redis.database | &check;  | Redis database          |
+| spring.data.redis.password | &cross;  | Redis password          |
+| jwt.public-key             | &check;  | JWT public key file     |
+| account-registry.url       | &check;  | Account Register URL    |
+| device-registry.url        | &check;  | Device Register URL     |
 
 *Required: &check; can be stored as text, and &cross; need to be stored as secret.*
 
