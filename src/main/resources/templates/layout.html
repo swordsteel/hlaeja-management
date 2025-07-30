@@ -1,57 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="documentHead (title)">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="${title}"/>
-  <link th:href="@{/css/management.css}" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+<head>
+  <title>LuLz</title>
+  <!-- Sheared head tags-->
+  <th:block th:fragment="metadata">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!--  <title th:text="${title}"/>-->
+      <link th:href="@{/css/tailwind.css}" rel="stylesheet">
+      <link th:href="@{/css/management.css}" rel="stylesheet">
+      <!--  <script src="https://cdn.tailwindcss.com"></script>-->
+  </th:block>
+  <style></style>
 </head>
 <body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
-<header th:fragment="header" class="bg-gray-800 border-b border-green-900">
-  <div class="container mx-auto px-4 py-2 flex items-center justify-between">
-    <div>
-      <h1 class="text-xl sm:text-2xl terminal-glow">Hlaeja Management</h1>
-    </div>
-    <div class="relative">
-      <button id="menu-toggle" class="focus:outline-none">
-        <svg class="w-6 h-6 text-green-400 hover:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-      <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 border border-green-900 shadow-lg z-10">
-        <th:block th:if="${remoteUser.hasRole('admin')}">
-          <a href="/account" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Account</a>
-          <a href="/type" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Device Type</a>
-          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ Device</a>
-          <hr class="dropdown-divider">
-        </th:block>
-        <th:block th:if="${remoteUser.authenticated}">
-          <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ Node</a>
-          <hr class="dropdown-divider">
-        </th:block>
-        <th:block th:if="${remoteUser.authenticated}">
-          <a href="/logout" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Logout</a>
-        </th:block>
-        <th:block th:unless="${remoteUser.authenticated}">
-          <a href="/login" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Login</a>
-        </th:block>
+<!-- Navigation -->
+<th:block th:fragment="navigation">
+  <header th:fragment="header" class="bg-gray-800 border-b border-green-900">
+    <div class="container mx-auto px-4 py-2 flex items-center justify-between">
+      <div>
+        <a class="text-xl sm:text-2xl terminal-glow" href="/">Hlæja Management</a>
+      </div>
+      <div class="relative">
+        <button id="menu-toggle" class="focus:outline-none">
+          <svg class="w-6 h-6 text-green-400 hover:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 border border-green-900 shadow-lg z-10">
+          <th:block th:if="${remoteUser.hasRole('admin')}">
+            <a href="/account" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Account</a>
+            <a href="/type" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Device Type</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ Device</a>
+            <hr class="dropdown-divider">
+          </th:block>
+          <th:block th:if="${remoteUser.authenticated}">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">$ Node</a>
+            <hr class="dropdown-divider">
+          </th:block>
+          <th:block th:if="${remoteUser.authenticated}">
+            <a href="/logout" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Logout</a>
+          </th:block>
+          <th:block th:unless="${remoteUser.authenticated}">
+            <a href="/login" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-300 transition-colors">Login</a>
+          </th:block>
+        </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
+</th:block>
+<!-- Pages Footer -->
 <th:block th:fragment="footer">
-<footer class="bg-gray-800 border-t border-green-900 mt-4">
-  <div class="container mx-auto p-4">
-    <div class="flex flex-col sm:flex-row justify-between items-center text-sm">
-      <div class="text-green-600 mb-2 sm:mb-0">Hlaeja © 2025 Lulz Ltd</div>
+  <footer class="bg-gray-800 border-t border-green-900 py-2">
+    <div class="container mx-auto px-4 text-center text-xs">
+      <div class="text-green-600 mb-2 sm:mb-0">Hlæja © 2025 Lulz Ltd.</div>
       <div class="flex space-x-4"></div>
     </div>
-  </div>
-</footer>
+  </footer>
 </th:block>
-<div th:fragment="script">
+<!-- JavaScript -->
+<th:block th:fragment="script">
   <script th:src="@{/js/management.js}"></script>
-</div>
+  <script></script>
+</th:block>
 </body>
 </html>
