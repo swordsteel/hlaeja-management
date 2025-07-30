@@ -4,7 +4,7 @@ plugins {
     alias(hlaeja.plugins.spring.boot)
     alias(hlaeja.plugins.spring.dependency.management)
     alias(hlaeja.plugins.certificate)
-    alias(hlaeja.plugins.service)
+    alias(hlaeja.plugins.ui.service)
 }
 
 dependencies {
