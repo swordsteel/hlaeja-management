@@ -1,8 +1,11 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--/*/<th:block th:replace="~{layout.html :: documentHead ('Hlaeja Management')}"/>/*/-->
+<head>
+  <title>Hlæja Management</title>
+  <th:block th:replace="~{layout.html :: metadata}"/>
+</head>
 <body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
-<!--/*/<th:block th:replace="~{layout.html :: header}"/>/*/-->
+<th:block th:replace="~{layout.html :: header}"/>
 <main class="container mx-auto p-4 flex-grow">
   <div class="bg-gray-800 p-6 rounded-lg border border-green-900">
     <h1 class="text-lg sm:text-xl mb-4 terminal-glow">Account Registry</h1>
@@ -39,11 +42,11 @@
         </tr>
       </table>
     </div>
-    <!--/*/<th:block th:replace="~{pagination :: pagination('/account', ${pagination})}"/>/*/-->
+    <th:block th:replace="~{pagination :: pagination('/account', ${pagination})}"/>
   </div>
 </main>
-<!--/*/<th:block th:replace="~{layout.html :: footer}"/>/*/-->
-<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+<th:block th:replace="~{layout.html :: footer}"/>
+<th:block th:replace="~{layout.html :: script}"/>
 <script>
   document.addEventListener('DOMContentLoaded', () => makeLocalTime(document.querySelectorAll('.utcTimestamp')));
 </script>

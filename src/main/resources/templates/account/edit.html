@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--/*/<th:block th:replace="~{layout.html :: documentHead ('Hlaeja Management')}"/>/*/-->
+<head>
+  <title>Hlæja Management</title>
+  <th:block th:replace="~{layout.html :: metadata}"/>
+</head>
 <body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
-<!--/*/<th:block th:replace="~{layout.html :: header}"/>/*/-->
+<th:block th:replace="~{layout.html :: header}"/>
 <main class="container mx-auto p-4 flex-grow flex items-center justify-center">
   <div class="w-full max-w-4xl">
     <form th:action="@{/account/edit-{account}(account = ${account})}" th:method="post">
@@ -56,7 +59,7 @@
     </form>
   </div>
 </main>
-<!--/*/<th:block th:replace="~{layout.html :: footer}"/>/*/-->
+<th:block th:replace="~{layout.html :: footer}"/>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     passwordMatchCheck(
@@ -66,6 +69,6 @@
     );
   });
 </script>
-<!--/*/<th:block th:replace="~{layout.html :: script}"/>/*/-->
+<th:block th:replace="~{layout.html :: script}"/>
 </body>
 </html>
