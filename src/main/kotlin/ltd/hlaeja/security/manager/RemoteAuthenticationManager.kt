@@ -1,4 +1,4 @@
-package ltd.hlaeja.security
+package ltd.hlaeja.security.manager
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.jsonwebtoken.Claims
@@ -6,7 +6,8 @@ import io.jsonwebtoken.Jws
 import io.jsonwebtoken.JwtException
 import java.util.UUID
 import ltd.hlaeja.jwt.service.PublicJwtService
-import ltd.hlaeja.library.accountRegistry.Authentication.Response
+import ltd.hlaeja.security.user.RemoteAuthentication
+import ltd.hlaeja.security.user.RemoteUserDetail
 import ltd.hlaeja.service.AccountRegistryService
 import ltd.hlaeja.util.toAuthenticationRequest
 import org.springframework.security.authentication.AuthenticationServiceException
@@ -19,7 +20,7 @@ import reactor.core.publisher.Mono
 private val log = KotlinLogging.logger {}
 
 @Component
-class RemoteReactiveAuthenticationManager(
+class RemoteAuthenticationManager(
     private val accountRegistryService: AccountRegistryService,
     private val publicJwtService: PublicJwtService,
 ) : ReactiveAuthenticationManager {
@@ -30,7 +31,7 @@ class RemoteReactiveAuthenticationManager(
         .map(::processToken)
 
     private fun processToken(
-        response: Response,
+        response: ltd.hlaeja.library.accountRegistry.Authentication.Response,
     ): Authentication = try {
         publicJwtService.verify(response.token) { claims -> makeRemoteAuthentication(claims) }
     } catch (e: JwtException) {

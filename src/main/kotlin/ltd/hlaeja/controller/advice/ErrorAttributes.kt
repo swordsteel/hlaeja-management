@@ -1,7 +1,7 @@
 package ltd.hlaeja.controller.advice
 
 import kotlinx.coroutines.runBlocking
-import ltd.hlaeja.security.RemoteAuthentication
+import ltd.hlaeja.security.user.RemoteAuthentication
 import ltd.hlaeja.security.user.GuestUser
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes

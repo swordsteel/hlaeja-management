@@ -1,4 +1,4 @@
-package ltd.hlaeja.security
+package ltd.hlaeja.security.user
 
 import java.io.Serializable
 import java.util.UUID
