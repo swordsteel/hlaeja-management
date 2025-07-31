@@ -15,6 +15,11 @@ In realms of connectedness, where devices roam free, A nexus of management, harm
 | server.error.include-exception  |          | Exception class on error   |
 | server.error.include-message    |          | Exception message on error |
 | server.error.include-stacktrace |          | stack trace on error       |
+| server.port                     |          | HTTP port                  |
+| server.ssl.enabled              |          | HTTP Enable SSL            |
+| server.ssl.key-store            | &cross;  | HTTP Keystore              |
+| server.ssl.key-store-type       |          | HTTP Cert Type             |
+| server.ssl.key-store-password   | &#10033; | HTTP Cert Pass             |
 | jwt.public-key                  | &cross;  | JWT public key file        |
 | account-registry.url            | &#x2714; | Account Register URL       |
 | device-registry.url             | &#x2714; | Device Register URL        |
