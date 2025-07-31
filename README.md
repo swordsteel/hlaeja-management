@@ -4,19 +4,25 @@ In realms of connectedness, where devices roam free, A nexus of management, harm
 
 ## Properties for deployment
 
-| name                       | required | info                    |
-|----------------------------|:--------:|-------------------------|
-| spring.profiles.active     | &check;  | Spring Boot environment |
-| spring.cache.type          |          | Cache type (redis)      |
-| spring.data.redis.host     | &check;  | Redis host              |
-| spring.data.redis.port     |          | Redis port              |
-| spring.data.redis.database | &check;  | Redis database          |
-| spring.data.redis.password | &cross;  | Redis password          |
-| jwt.public-key             | &check;  | JWT public key file     |
-| account-registry.url       | &check;  | Account Register URL    |
-| device-registry.url        | &check;  | Device Register URL     |
+| name                            | required | info                       |
+|---------------------------------|:--------:|----------------------------|
+| spring.profiles.active          | &cross;  | Spring Boot environment    |
+| spring.session.timeout          |          | Session timeout            |
+| spring.data.redis.database      |          | Redis database             |
+| spring.data.redis.port          |          | Redis port                 |
+| spring.data.redis.host          | &#x2714; | Redis host                 |
+| spring.data.redis.password      | &#10033; | Redis password             |
+| server.error.include-exception  |          | Exception class on error   |
+| server.error.include-message    |          | Exception message on error |
+| server.error.include-stacktrace |          | stack trace on error       |
+| jwt.public-key                  | &cross;  | JWT public key file        |
+| account-registry.url            | &#x2714; | Account Register URL       |
+| device-registry.url             | &#x2714; | Device Register URL        |
 
-*Required: &check; can be stored as text, and &cross; need to be stored as secret.*
+*Required:*
+- *&check; can be stored as text. &#x2714; predefined in environment*
+- *&cross; mounted file.*
+- *&#10033; need to be stored as secret.*
 
 ## Releasing Service
 
