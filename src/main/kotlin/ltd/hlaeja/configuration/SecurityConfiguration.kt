@@ -1,6 +1,7 @@
 package ltd.hlaeja.configuration
 
 import ltd.hlaeja.security.handler.CsrfAccessDeniedHandler
+import ltd.hlaeja.security.handler.UserAccessDeniedHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus.FOUND
@@ -17,6 +18,7 @@ class SecurityConfiguration {
     @Bean
     fun securityWebFilterChain(serverHttpSecurity: ServerHttpSecurity): SecurityWebFilterChain = serverHttpSecurity
         .csrf { it.accessDeniedHandler(CsrfAccessDeniedHandler()) }
+        .exceptionHandling { it.accessDeniedHandler(UserAccessDeniedHandler()) }
         .authorizeExchange(::authorizeExchange)
         .formLogin(::formLogin)
         .logout(::logout)
