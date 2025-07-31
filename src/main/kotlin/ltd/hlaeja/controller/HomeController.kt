@@ -1,6 +1,6 @@
 package ltd.hlaeja.controller
 
-import ltd.hlaeja.security.RemoteUserDetail
+import ltd.hlaeja.security.user.RemoteUserDetail
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

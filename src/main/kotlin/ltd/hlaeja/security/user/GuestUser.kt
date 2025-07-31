@@ -1,8 +1,6 @@
 package ltd.hlaeja.security.user
 
 import java.util.UUID
-import ltd.hlaeja.security.RemoteAuthentication
-import ltd.hlaeja.security.RemoteUserDetail
 
 interface GuestUser {
 

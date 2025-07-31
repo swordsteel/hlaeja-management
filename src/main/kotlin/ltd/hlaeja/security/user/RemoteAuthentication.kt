@@ -1,4 +1,4 @@
-package ltd.hlaeja.security
+package ltd.hlaeja.security.user
 
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
@@ -25,6 +25,7 @@ data class RemoteAuthentication(
         authenticated = isAuthenticated
     }
 
+    @Suppress("unused")
     fun hasRole(role: String): Boolean {
         authorities.forEach {
             if (it.authority.equals("role_$role", true)) {

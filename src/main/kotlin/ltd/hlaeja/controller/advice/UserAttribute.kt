@@ -1,7 +1,7 @@
 package ltd.hlaeja.controller.advice
 
 import kotlinx.coroutines.reactive.awaitFirstOrNull
-import ltd.hlaeja.security.RemoteAuthentication
+import ltd.hlaeja.security.user.RemoteAuthentication
 import ltd.hlaeja.security.user.GuestUser
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.ui.Model
