@@ -16,6 +16,7 @@ spring:
   data:
     redis:
       port: 6379
+      database: 2
 
 server:
   error:
@@ -59,7 +60,6 @@ spring:
   data:
     redis:
       host: localhost
-      database: 2
 
 server:
   error:
@@ -84,11 +84,9 @@ spring:
   data:
     redis:
       host: Redis
-      database: 2
 
 server:
   error:
-    include-exception: true
     include-message: always
 
 account-registry:
@@ -99,9 +97,19 @@ device-registry:
 
 ---
 ##############################
-### Production environment ###
+### Kubernetes environment ###
 ##############################
 spring:
   config:
     activate:
-      on-profile: production
+      on-profile: kubernetes
+  data:
+    redis:
+      host: dependency-redis-master
+
+account-registry:
+  url: http://account-register
+
+device-registry:
+  url: http://device-register
+
