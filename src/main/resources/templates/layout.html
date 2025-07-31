@@ -1,15 +1,18 @@
 <!DOCTYPE html>
+<!--suppress HtmlUnknownTag -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>LuLz</title>
-  <!-- Sheared head tags-->
+  <!-- Header tags-->
   <th:block th:fragment="metadata">
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!--  <title th:text="${title}"/>-->
-      <link th:href="@{/css/tailwind.css}" rel="stylesheet">
-      <link th:href="@{/css/management.css}" rel="stylesheet">
-      <!--  <script src="https://cdn.tailwindcss.com"></script>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/img/logo/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/img/logo/apple-touch-icon.png" type="image/png">
+    <link th:href="@{/css/tailwind.css}" rel="stylesheet">
+    <link th:href="@{/css/management.css}" rel="stylesheet">
+    <!--  <script src="https://cdn.tailwindcss.com"></script>-->
   </th:block>
   <style></style>
 </head>
