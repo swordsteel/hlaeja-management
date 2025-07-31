@@ -1,5 +1,7 @@
 package ltd.hlaeja.configuration
 
+import ltd.hlaeja.security.authorize.adminPaths
+import ltd.hlaeja.security.authorize.publicPaths
 import ltd.hlaeja.security.handler.CsrfAccessDeniedHandler
 import ltd.hlaeja.security.handler.UserAccessDeniedHandler
 import org.springframework.context.annotation.Bean
@@ -16,7 +18,9 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 class SecurityConfiguration {
 
     @Bean
-    fun securityWebFilterChain(serverHttpSecurity: ServerHttpSecurity): SecurityWebFilterChain = serverHttpSecurity
+    fun securityWebFilterChain(
+        serverHttpSecurity: ServerHttpSecurity,
+    ): SecurityWebFilterChain = serverHttpSecurity
         .csrf { it.accessDeniedHandler(CsrfAccessDeniedHandler()) }
         .exceptionHandling { it.accessDeniedHandler(UserAccessDeniedHandler()) }
         .authorizeExchange(::authorizeExchange)
@@ -24,32 +28,23 @@ class SecurityConfiguration {
         .logout(::logout)
         .build()
 
-    private fun logout(logout: ServerHttpSecurity.LogoutSpec) = logout.logoutUrl("/logout")
+    private fun authorizeExchange(
+        authorizeExchange: AuthorizeExchangeSpec,
+    ) = authorizeExchange
+        .publicPaths().permitAll()
+        .adminPaths().hasRole("ADMIN")
+        .anyExchange().authenticated()
+
+    private fun logout(
+        logout: ServerHttpSecurity.LogoutSpec,
+    ) = logout.logoutUrl("/logout")
         .logoutSuccessHandler { webFilter, _ ->
             webFilter.exchange.response.headers.add("Location", "/logout")
             webFilter.exchange.response.statusCode = FOUND
             webFilter.exchange.response.setComplete()
         }
 
-    private fun formLogin(login: FormLoginSpec) = login.loginPage("/login")
-
-    private fun authorizeExchange(authorizeExchange: AuthorizeExchangeSpec) = authorizeExchange
-        .publicPaths().permitAll()
-        .adminPaths().hasRole("ADMIN")
-        .anyExchange().authenticated()
-
-    private fun AuthorizeExchangeSpec.adminPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
-        "/account/**",
-        "/type/**",
-    )
-
-    private fun AuthorizeExchangeSpec.publicPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
-        "/css/**",
-        "/js/**",
-        "/img/**",
-        "/actuator/**",
-        "/login",
-        "/logout",
-        "/",
-    )
+    private fun formLogin(
+        login: FormLoginSpec,
+    ) = login.loginPage("/login")
 }
