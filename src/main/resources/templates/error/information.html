@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="exception-info">
+  <th:block th:if="${message}">
+    <h2 class="text-2xl md:text-4xl font-bold mb-6 text-primary-foreground" th:text="${message}">Message</h2>
+  </th:block>
+  <th:block th:if="${exception}">
+    <h3 class="text-1xl md:text-2xl font-bold mb-6 text-primary-foreground" th:text="${exception}">Exception</h3>
+  </th:block>
+</th:block>
+<th:block th:fragment="exception-trace">
+  <section th:if="${trace != null}" class="debug-section py-5 bg-teal-600">
+    <div class="container mx-auto px-4 text-teal-100">
+      <h2 class="text-2xl text-center md:text-6xl text-primary-foreground mb-4 terminal-glow font-semibold">Stack Trace</h2>
+      <div class="stack-trace text-xs  mt-2 font-mono leading-relaxed whitespace-pre-wrap break-words" th:text="${trace}">Stack Trace</div>
+    </div>
+  </section>
+</th:block>
+</body>
+</html>

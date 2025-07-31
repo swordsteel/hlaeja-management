@@ -17,6 +17,12 @@ spring:
     redis:
       port: 6379
 
+server:
+  error:
+    include-exception: false
+    include-message: never
+    include-stacktrace: never
+
 management:
   endpoints:
     access:
@@ -55,6 +61,12 @@ spring:
       host: localhost
       database: 2
 
+server:
+  error:
+    include-exception: true
+    include-message: always
+    include-stacktrace: always
+
 account-registry:
   url: http://localhost:9050
 
@@ -73,6 +85,11 @@ spring:
     redis:
       host: Redis
       database: 2
+
+server:
+  error:
+    include-exception: true
+    include-message: always
 
 account-registry:
   url: http://AccountRegistry:8080
