@@ -23,6 +23,9 @@ server:
     include-exception: false
     include-message: never
     include-stacktrace: never
+  ssl:
+    key-store: classpath:cert/keystore.p12
+    key-store-type: PKCS12
 
 management:
   endpoints:
@@ -66,6 +69,8 @@ server:
     include-exception: true
     include-message: always
     include-stacktrace: always
+  ssl:
+    enabled: false
 
 account-registry:
   url: http://localhost:9050
@@ -88,6 +93,10 @@ spring:
 server:
   error:
     include-message: always
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-password: password
 
 account-registry:
   url: http://AccountRegistry:8080
@@ -107,9 +116,13 @@ spring:
     redis:
       host: dependency-redis-master
 
+server:
+  port: 8443
+  ssl:
+    enabled: true
+
 account-registry:
   url: http://account-register
 
 device-registry:
   url: http://device-register
-
