@@ -11,8 +11,6 @@ spring:
         version: "%APP_BUILD_OS_VERSION%"
   session:
     timeout: 60m
-    redis:
-      namespace: "spring:session:management"
   data:
     redis:
       port: 6379
