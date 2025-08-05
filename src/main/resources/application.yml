@@ -17,6 +17,13 @@ spring:
     redis:
       port: 6379
       database: 2
+  kafka:
+    consumer:
+      group-id: management-ui
+      auto-offset-reset: latest
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "ltd.hlaeja.library.accountRegistry.event"
 
 server:
   error:
@@ -63,6 +70,8 @@ spring:
   data:
     redis:
       host: localhost
+  kafka:
+    bootstrap-servers: localhost:9091
 
 server:
   error:
@@ -89,6 +98,8 @@ spring:
   data:
     redis:
       host: Redis
+  kafka:
+    bootstrap-servers: kafka:9092
 
 server:
   error:
