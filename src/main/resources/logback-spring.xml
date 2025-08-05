@@ -7,7 +7,7 @@
   <root level="INFO">
     <appender-ref ref="STDOUT"/>
   </root>
-  <springProfile name="develop|docker">
-    <logger level="DEBUG" name="ltd.hlaeja"/>
+  <springProfile name="development|docker">
+    <logger level="TRACE" name="ltd.hlaeja"/>
   </springProfile>
 </configuration>

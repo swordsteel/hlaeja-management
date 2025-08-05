@@ -16,6 +16,7 @@ dependencies {
     implementation(hlaeja.library.common.messages)
     implementation(hlaeja.library.jwt)
     implementation(hlaeja.projectreactor.kotlin.reactor.extensions)
+    implementation(hlaeja.springboot.kafka)
     implementation(hlaeja.springboot.redis.session)
     implementation(hlaeja.springboot.starter.actuator)
     implementation(hlaeja.springboot.starter.redis)
@@ -29,6 +30,7 @@ dependencies {
     testImplementation(hlaeja.kotlin.test.junit5)
     testImplementation(hlaeja.mockk)
     testImplementation(hlaeja.projectreactor.reactor.test)
+    testImplementation(hlaeja.springboot.kafka.test)
     testImplementation(hlaeja.springboot.starter.test)
 
     testRuntimeOnly(hlaeja.junit.platform.launcher)
