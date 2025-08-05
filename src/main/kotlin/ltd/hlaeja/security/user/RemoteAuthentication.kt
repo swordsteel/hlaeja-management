@@ -9,7 +9,7 @@ data class RemoteAuthentication(
     private var authenticated: Boolean = false,
 ) : Authentication {
 
-    override fun getName(): String = "Hlaeja Account Registry"
+    override fun getName(): String = remoteUserDetail.id.toString()
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = authorities
 
