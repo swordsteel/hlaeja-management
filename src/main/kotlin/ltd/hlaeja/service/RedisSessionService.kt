@@ -16,6 +16,10 @@ class RedisSessionService(
     private val accountRegistryService: AccountRegistryService,
 ) {
 
+    fun deleteUser(user: UUID): Flux<RedisSession> = findByUser(user)
+        .flatMapMany { sessions -> Flux.fromIterable(sessions.values) }
+        .flatMap(::delete)
+
     fun updateUser(
         user: UUID,
     ): Flux<RedisSession> = findByUser(user)
@@ -45,4 +49,10 @@ class RedisSessionService(
     ): Mono<RedisSession> = redisSessionRepository.save(session)
         .thenReturn(session)
         .doOnNext { ltd.hlaeja.listener.log.trace { "Save session: ${it.id}" } }
+
+    private fun delete(
+        session: RedisSession,
+    ): Mono<RedisSession> = redisSessionRepository.deleteById(session.id)
+        .thenReturn(session)
+        .doOnNext { ltd.hlaeja.listener.log.trace { "Deleted session: ${it.id}" } }
 }

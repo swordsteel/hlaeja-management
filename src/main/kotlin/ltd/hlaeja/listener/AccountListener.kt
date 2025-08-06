@@ -17,8 +17,15 @@ class AccountListener(
     @KafkaListener(topics = ["account"])
     fun handleRemoteAccountEvent(record: ConsumerRecord<String, AccountMessage>) {
         log.trace { "Received event: ${record.key()} for user: ${record.value().userId}" }
-        if (record.key() == "change" && record.value().change.any { it in setOf("enabled", "username", "roles") }) {
-            sessionService.updateUser(record.value().userId).subscribe()
+        if (record.key() == "change") {
+            when {
+                record.value().change.any { it == "enabled" } -> {
+                    sessionService.deleteUser(record.value().userId).subscribe()
+                }
+                record.value().change.any { it in setOf("username", "roles") } -> {
+                    sessionService.updateUser(record.value().userId).subscribe()
+                }
+            }
         }
     }
 }
