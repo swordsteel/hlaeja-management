@@ -5,6 +5,7 @@ import ltd.hlaeja.exception.DeviceRegistryException
 import ltd.hlaeja.exception.NoChangeException
 import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.TypeNameDuplicateException
+import ltd.hlaeja.library.deviceRegistry.Devices
 import ltd.hlaeja.library.deviceRegistry.Type
 import ltd.hlaeja.library.deviceRegistry.Types
 import ltd.hlaeja.property.DeviceRegistryProperty
@@ -59,3 +60,12 @@ fun WebClient.deviceRegistryTypesUpdate(
     .onStatus(NOT_FOUND::equals) { throw NotFoundException("Remote service returned 404") }
     .onStatus(CONFLICT::equals) { throw TypeNameDuplicateException("Remote service returned 409") }
     .bodyToMono(Type.Response::class.java)
+
+fun WebClient.deviceRegistryDevices(
+    page: Int,
+    size: Int,
+    property: DeviceRegistryProperty,
+): Flux<Devices.Response> = get()
+    .uri("${property.url}/devices/page-$page/show-$size".also(::logCall))
+    .retrieve()
+    .bodyToFlux(Devices.Response::class.java)

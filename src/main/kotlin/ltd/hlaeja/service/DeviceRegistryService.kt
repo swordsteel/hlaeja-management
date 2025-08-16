@@ -1,9 +1,11 @@
 package ltd.hlaeja.service
 
 import java.util.UUID
+import ltd.hlaeja.library.deviceRegistry.Devices
 import ltd.hlaeja.library.deviceRegistry.Type
 import ltd.hlaeja.library.deviceRegistry.Types
 import ltd.hlaeja.property.DeviceRegistryProperty
+import ltd.hlaeja.util.deviceRegistryDevices
 import ltd.hlaeja.util.deviceRegistryType
 import ltd.hlaeja.util.deviceRegistryTypes
 import ltd.hlaeja.util.deviceRegistryTypesCreate
@@ -41,4 +43,9 @@ class DeviceRegistryService(
         request: Type.Request,
     ): Mono<Type.Response> = webClient.deviceRegistryTypesUpdate(type, request, property)
         .onErrorResume(::hlaejaErrorHandler)
+
+    fun getDevices(
+        page: Int,
+        show: Int,
+    ): Flux<Devices.Response> = webClient.deviceRegistryDevices(page, show, property)
 }

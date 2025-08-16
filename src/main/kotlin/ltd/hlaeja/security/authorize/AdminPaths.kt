@@ -5,4 +5,5 @@ import org.springframework.security.config.web.server.ServerHttpSecurity.Authori
 fun AuthorizeExchangeSpec.adminPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
     "/account/**",
     "/type/**",
+    "/device/**",
 )
