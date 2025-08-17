@@ -48,12 +48,12 @@ class TypeController(
             model.addAttribute("items", items)
             model.addAttribute("pagination", Pagination(page, show, items.size, DEFAULT_SIZE))
         }
-        .then(Mono.just("device/type/list"))
+        .then(Mono.just("type/list"))
 
     @GetMapping("/type/create")
     fun getCreateType(
         model: Model,
-    ): Mono<String> = Mono.just("device/type/form")
+    ): Mono<String> = Mono.just("type/form")
         .doOnNext {
             model.addAttribute("typeForm", TypeForm())
         }
@@ -66,7 +66,7 @@ class TypeController(
     ): Mono<String> = if (bindingResult.hasErrors()) {
         model.addAttribute("typeForm", typeForm)
         model.addAttribute("validationErrors", validationErrors(bindingResult))
-        Mono.just("device/type/form")
+        Mono.just("type/form")
     } else {
         Mono.just(typeForm)
             .flatMap { deviceRegistryService.createType(it.toTypeRequest()) }
@@ -77,7 +77,7 @@ class TypeController(
                     else -> "An unexpected error occurred. Please try again later."
                 }
                 model.addAttribute("validationErrors", listOf(errorMessage))
-                Mono.just("device/type/form")
+                Mono.just("type/form")
             }
     }
 
@@ -90,7 +90,7 @@ class TypeController(
             model.addAttribute("type", it)
             model.addAttribute("typeForm", it.toTypeForm())
         }
-        .then(Mono.just("device/type/form"))
+        .then(Mono.just("type/form"))
 
     @PostMapping("/type-{type}")
     fun postEditType(
@@ -106,7 +106,7 @@ class TypeController(
                 model.addAttribute("validationErrors", validationErrors(bindingResult))
             }
             .then(
-                Mono.just("device/type/form"),
+                Mono.just("type/form"),
             )
     } else {
         Mono.just(typeForm)
@@ -116,7 +116,7 @@ class TypeController(
                 model.addAttribute("type", it)
                 model.addAttribute("typeForm", it.toTypeForm())
             }
-            .then(Mono.just("device/type/form"))
+            .then(Mono.just("type/form"))
             .onErrorResume { error ->
                 val errorMessage = when (error) {
                     is NoChangeException -> Pair("successMessage", "No change to save.")
@@ -135,7 +135,7 @@ class TypeController(
                         model.addAttribute("typeForm", typeForm)
                     }
                     .then(
-                        Mono.just("device/type/form"),
+                        Mono.just("type/form"),
                     )
             }
     }
