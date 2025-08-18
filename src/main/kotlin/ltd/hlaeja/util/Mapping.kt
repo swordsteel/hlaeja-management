@@ -16,17 +16,13 @@ fun AccountForm.toAccountRequest(): Account.Request = Account.Request(
     username = username,
     password = if (password.isNullOrEmpty()) null else password,
     enabled = enabled,
-    roles = roles.map { "ROLE_${it.uppercase()}" },
+    roles = roles.map { it.uppercase() },
 )
 
 fun Account.Response.toAccountForm(): AccountForm = AccountForm(
     username = username,
     enabled = enabled,
-    roles = roles.map {
-        it.removePrefix("ROLE_")
-            .lowercase()
-            .replaceFirstChar { char -> char.uppercase() }
-    },
+    roles = roles.map { it.lowercase().replaceFirstChar { char -> char.uppercase() } },
 )
 
 fun TypeForm.toTypeRequest(): Type.Request = Type.Request(
