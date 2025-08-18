@@ -5,12 +5,16 @@ import jakarta.validation.constraints.Min
 import java.util.UUID
 import ltd.hlaeja.controller.validation.CreateGroup
 import ltd.hlaeja.controller.validation.EditGroup
-import ltd.hlaeja.util.Pagination
 import ltd.hlaeja.exception.NoChangeException
 import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.UsernameDuplicateException
 import ltd.hlaeja.form.AccountForm
 import ltd.hlaeja.service.AccountRegistryService
+import ltd.hlaeja.util.Pagination
+import ltd.hlaeja.util.Pagination.Companion.DEFAULT_PAGE
+import ltd.hlaeja.util.Pagination.Companion.DEFAULT_SIZE
+import ltd.hlaeja.util.Pagination.Companion.MAX
+import ltd.hlaeja.util.Pagination.Companion.MIN
 import ltd.hlaeja.util.toAccountForm
 import ltd.hlaeja.util.toAccountRequest
 import ltd.hlaeja.util.validationErrors
@@ -30,12 +34,6 @@ import reactor.core.publisher.Mono
 class AccountController(
     private val accountRegistryService: AccountRegistryService,
 ) {
-    companion object {
-        const val DEFAULT_PAGE: Int = 1
-        const val DEFAULT_SIZE: Int = 25
-        const val MIN: Long = 1
-        const val MAX: Long = 100
-    }
 
     @GetMapping("/edit-{account}")
     fun getEditAccount(

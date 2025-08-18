@@ -3,12 +3,16 @@ package ltd.hlaeja.controller
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import java.util.UUID
-import ltd.hlaeja.util.Pagination
 import ltd.hlaeja.exception.NoChangeException
 import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.TypeNameDuplicateException
 import ltd.hlaeja.form.TypeForm
 import ltd.hlaeja.service.DeviceRegistryService
+import ltd.hlaeja.util.Pagination
+import ltd.hlaeja.util.Pagination.Companion.DEFAULT_PAGE
+import ltd.hlaeja.util.Pagination.Companion.DEFAULT_SIZE
+import ltd.hlaeja.util.Pagination.Companion.MAX
+import ltd.hlaeja.util.Pagination.Companion.MIN
 import ltd.hlaeja.util.toTypeForm
 import ltd.hlaeja.util.toTypeRequest
 import ltd.hlaeja.util.validationErrors
@@ -26,12 +30,6 @@ import reactor.core.publisher.Mono
 class TypeController(
     private val deviceRegistryService: DeviceRegistryService,
 ) {
-    companion object {
-        const val DEFAULT_PAGE: Int = 1
-        const val DEFAULT_SIZE: Int = 25
-        const val MIN: Long = 1
-        const val MAX: Long = 100
-    }
 
     @GetMapping(
         "/type",

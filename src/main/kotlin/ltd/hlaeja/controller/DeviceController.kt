@@ -2,8 +2,12 @@ package ltd.hlaeja.controller
 
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
-import ltd.hlaeja.util.Pagination
 import ltd.hlaeja.service.DeviceRegistryService
+import ltd.hlaeja.util.Pagination
+import ltd.hlaeja.util.Pagination.Companion.DEFAULT_PAGE
+import ltd.hlaeja.util.Pagination.Companion.DEFAULT_SIZE
+import ltd.hlaeja.util.Pagination.Companion.MAX
+import ltd.hlaeja.util.Pagination.Companion.MIN
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -14,12 +18,6 @@ import reactor.core.publisher.Mono
 class DeviceController(
     private val deviceRegistryService: DeviceRegistryService,
 ) {
-    companion object {
-        const val DEFAULT_PAGE: Int = 1
-        const val DEFAULT_SIZE: Int = 25
-        const val MIN: Long = 1
-        const val MAX: Long = 100
-    }
 
     @GetMapping(
         "/device",
