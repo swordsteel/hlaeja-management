@@ -2,10 +2,12 @@ package ltd.hlaeja.service
 
 import java.util.UUID
 import ltd.hlaeja.library.deviceRegistry.Devices
+import ltd.hlaeja.library.deviceRegistry.Nodes
 import ltd.hlaeja.library.deviceRegistry.Type
 import ltd.hlaeja.library.deviceRegistry.Types
 import ltd.hlaeja.property.DeviceRegistryProperty
 import ltd.hlaeja.util.deviceRegistryDevices
+import ltd.hlaeja.util.deviceRegistryNodes
 import ltd.hlaeja.util.deviceRegistryType
 import ltd.hlaeja.util.deviceRegistryTypes
 import ltd.hlaeja.util.deviceRegistryTypesCreate
@@ -48,4 +50,9 @@ class DeviceRegistryService(
         page: Int,
         show: Int,
     ): Flux<Devices.Response> = webClient.deviceRegistryDevices(page, show, property)
+
+    fun getNodes(
+        page: Int,
+        show: Int,
+    ): Flux<Nodes.Response> = webClient.deviceRegistryNodes(page, show, property)
 }

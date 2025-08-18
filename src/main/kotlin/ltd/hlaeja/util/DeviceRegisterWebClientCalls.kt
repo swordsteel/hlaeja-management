@@ -6,6 +6,7 @@ import ltd.hlaeja.exception.NoChangeException
 import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.TypeNameDuplicateException
 import ltd.hlaeja.library.deviceRegistry.Devices
+import ltd.hlaeja.library.deviceRegistry.Nodes
 import ltd.hlaeja.library.deviceRegistry.Type
 import ltd.hlaeja.library.deviceRegistry.Types
 import ltd.hlaeja.property.DeviceRegistryProperty
@@ -69,3 +70,12 @@ fun WebClient.deviceRegistryDevices(
     .uri("${property.url}/devices/page-$page/show-$size".also(::logCall))
     .retrieve()
     .bodyToFlux(Devices.Response::class.java)
+
+fun WebClient.deviceRegistryNodes(
+    page: Int,
+    size: Int,
+    property: DeviceRegistryProperty,
+): Flux<Nodes.Response> = get()
+    .uri("${property.url}/nodes/page-$page/show-$size".also(::logCall))
+    .retrieve()
+    .bodyToFlux(Nodes.Response::class.java)

@@ -6,4 +6,5 @@ fun AuthorizeExchangeSpec.adminPaths(): AuthorizeExchangeSpec.Access = pathMatch
     "/account/**",
     "/type/**",
     "/device/**",
+    "/node/**",
 )

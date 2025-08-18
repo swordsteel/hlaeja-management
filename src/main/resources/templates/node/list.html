@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Hlæja Management</title>
+  <th:block th:replace="~{layout.html :: metadata}"/>
+</head>
+<body class="bg-gray-900 text-green-400 min-h-screen flex flex-col">
+<th:block th:replace="~{layout.html :: header}"/>
+<main class="container mx-auto p-4 flex-grow">
+  <div class="bg-gray-800 p-6 rounded-lg border border-green-900">
+    <h1 class="text-lg sm:text-xl mb-4 terminal-glow">Nodes</h1>
+    <hr class="border-green-900 mb-4">
+    <div class="flex justify-between items-center mb-4">
+      <div th:if="${pagination.start > pagination.size}" class="text-sm">
+        Show page <span th:text="${pagination.page}"/> items 0 - 0
+      </div>
+      <div th:unless="${pagination.start > pagination.size}" class="text-sm">
+        Show page <span th:text="${pagination.page}"/>
+        items <span th:text="${pagination.start}"/> -
+        <span th:text="${pagination.size}"/>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+        <tr class="border-b border-green-900">
+          <th class="py-2 px-4 text-left">Name</th>
+          <th class="py-2 px-4 text-left">Time</th>
+          <th class="py-2 px-4 text-left">ID <span>▲</span></th>
+          <th class="py-2 px-4 text-left">Client ID</th>
+          <th class="py-2 px-4 text-left">Device ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${items.isEmpty()}">
+          <td colspan="4" class="py-2 px-4 text-center text-green-600">No nodes found</td>
+        </tr>
+        <tr th:each="item : ${items}" class="border-b border-gray-700 hover:bg-gray-700">
+          <td th:text="${item.name}" class="py-2 px-4"></td>
+          <td th:data-timestamp="${item.timestamp}" class="py-2 px-4 utcTimestamp"></td>
+          <td th:text="${item.id}" class="py-2 px-4"></td>
+          <td th:text="${item.client}" class="py-2 px-4"></td>
+          <td th:text="${item.device}" class="py-2 px-4"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <th:block th:replace="~{pagination :: pagination('/node', ${pagination})}"/>
+  </div>
+</main>
+<th:block th:replace="~{layout.html :: footer}"/>
+<th:block th:replace="~{layout.html :: script}"/>
+<script>
+  document.addEventListener('DOMContentLoaded', () => makeLocalTime(document.querySelectorAll('.utcTimestamp')));
+</script>
+</body>
+</html>
