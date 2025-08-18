@@ -3,7 +3,7 @@ package ltd.hlaeja.controller
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import java.util.UUID
-import ltd.hlaeja.dto.Pagination
+import ltd.hlaeja.util.Pagination
 import ltd.hlaeja.exception.NoChangeException
 import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.TypeNameDuplicateException

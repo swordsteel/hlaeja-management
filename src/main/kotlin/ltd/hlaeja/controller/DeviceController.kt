@@ -2,7 +2,7 @@ package ltd.hlaeja.controller
 
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
-import ltd.hlaeja.dto.Pagination
+import ltd.hlaeja.util.Pagination
 import ltd.hlaeja.service.DeviceRegistryService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

@@ -1,4 +1,4 @@
-package ltd.hlaeja.dto
+package ltd.hlaeja.util
 
 @Suppress("unused")
 data class Pagination(
