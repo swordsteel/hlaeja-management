@@ -12,8 +12,7 @@
       <h2 class="text-lg sm:text-xl mb-4 terminal-glow">Confirm System Logout</h2>
       <p class="text-sm mb-6 text-green-600">Are you sure you want to terminate your session?</p>
       <div class="flex justify-end space-x-4">
-        <a href="/account/page-1/show-10" class="bg-gray-800 hover:bg-gray-700 text-green-400 px-4 py-2 rounded border border-green-900 transition-colors inline-block">Cancel</a>
-<!--        <a href="/account" class=" text-center bg-gray-700 hover:bg-gray-600 text-green-400 px-4 py-2 rounded border border-green-900 transition-colors">Cansel</a>-->
+        <button onclick="history.back()" class="bg-gray-800 hover:bg-gray-700 text-green-400 px-4 py-2 rounded border border-green-900 transition-colors">Go Back</button>
         <form th:action="@{/logout}" th:method="post" class="flex-1">
           <button type="submit" class="w-full bg-red-900 hover:bg-red-800 text-green-400 px-4 py-2 rounded border border-red-600 transition-colors">Yes, Logout</button>
         </form>

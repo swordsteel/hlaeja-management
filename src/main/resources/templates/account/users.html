@@ -20,7 +20,7 @@
         <span th:text="${pagination.size}"/>
       </div>
       <div class="mt-[-2px]">
-        <a th:href="@{/account/create}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors text-sm">Create New Account</a>
+        <a th:href="@{/accounts/create}" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded border border-green-900 transition-colors text-sm">Create New Account</a>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -38,11 +38,11 @@
           <td class="py-2 px-4" th:text="${item.username}">username</td>
           <td class="py-2 px-4 utcTimestamp" th:data-timestamp="${item.timestamp}">Loading...</td>
           <td class="py-2 px-4" th:text="${item.id}">ID</td>
-          <td class="py-2 px-4"><a th:href="@{/account/edit-{id}(id = ${item.id})}">Edit</a></td>
+          <td class="py-2 px-4"><a th:href="@{/accounts/edit-{id}(id = ${item.id})}">Edit</a></td>
         </tr>
       </table>
     </div>
-    <th:block th:replace="~{pagination :: pagination('/account', ${pagination})}"/>
+    <th:block th:replace="~{pagination :: pagination('/accounts', ${pagination})}"/>
   </div>
 </main>
 <th:block th:replace="~{layout.html :: footer}"/>

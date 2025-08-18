@@ -20,9 +20,9 @@ class DeviceController(
 ) {
 
     @GetMapping(
-        "/device",
-        "/device/page-{page}",
-        "/device/page-{page}/show-{show}",
+        "/devices",
+        "/devices/page-{page}",
+        "/devices/page-{page}/show-{show}",
     )
     fun getDevice(
         @PathVariable(required = false) @Min(MIN) page: Int = DEFAULT_PAGE,

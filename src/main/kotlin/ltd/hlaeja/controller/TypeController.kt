@@ -24,17 +24,19 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import reactor.core.publisher.Mono
 
 @Controller
+@RequestMapping("/types")
 class TypeController(
     private val deviceRegistryService: DeviceRegistryService,
 ) {
 
     @GetMapping(
-        "/type",
-        "/type/page-{page}",
-        "/type/page-{page}/show-{show}",
+        "",
+        "/page-{page}",
+        "/page-{page}/show-{show}",
     )
     fun getTypes(
         @PathVariable(required = false) @Min(MIN) page: Int = DEFAULT_PAGE,
@@ -48,7 +50,7 @@ class TypeController(
         }
         .then(Mono.just("type/list"))
 
-    @GetMapping("/type/create")
+    @GetMapping("/create")
     fun getCreateType(
         model: Model,
     ): Mono<String> = Mono.just("type/form")
@@ -56,7 +58,7 @@ class TypeController(
             model.addAttribute("typeForm", TypeForm())
         }
 
-    @PostMapping("/type/create")
+    @PostMapping("/create")
     fun postCreateType(
         @Validated @ModelAttribute("typeForm") typeForm: TypeForm,
         bindingResult: BindingResult,
@@ -68,7 +70,7 @@ class TypeController(
     } else {
         Mono.just(typeForm)
             .flatMap { deviceRegistryService.createType(it.toTypeRequest()) }
-            .map { "redirect:/type" }
+            .map { "redirect:/types" }
             .onErrorResume { error ->
                 val errorMessage = when (error) {
                     is TypeNameDuplicateException -> "Type name already exists. Please choose another."
@@ -79,7 +81,7 @@ class TypeController(
             }
     }
 
-    @GetMapping("/type-{type}")
+    @GetMapping("/edit-{type}")
     fun getEditType(
         @PathVariable type: UUID,
         model: Model,
@@ -90,7 +92,7 @@ class TypeController(
         }
         .then(Mono.just("type/form"))
 
-    @PostMapping("/type-{type}")
+    @PostMapping("/edit-{type}")
     fun postEditType(
         @PathVariable type: UUID,
         @Validated @ModelAttribute("typeForm") typeForm: TypeForm,
