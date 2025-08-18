@@ -11,7 +11,7 @@
     <h2 class="text-lg sm:text-xl mb-4 terminal-glow">New Account Registration</h2>
     <hr class="border-green-900 mb-4">
     <th:block th:replace="~{messages :: messageDisplay(messageList=${validationErrors}, error=true, styleClass='text-red-600')}"/>
-    <form th:action="@{/account/create}" th:method="post">
+    <form th:action="@{/accounts/create}" th:method="post">
       <div class="bg-gray-800 p-6 rounded-lg border border-green-900">
         <div class="mb-4">
           <label for="username" class="block text-sm mb-2">Username</label>
@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="mt-4 flex justify-end space-x-4">
-        <a href="/account" class="bg-gray-800 hover:bg-gray-700 text-green-400 px-4 py-2 rounded border border-green-900 transition-colors inline-block">Cancel</a>
+        <a href="/accounts" class="bg-gray-800 hover:bg-gray-700 text-green-400 px-4 py-2 rounded border border-green-900 transition-colors inline-block">Cancel</a>
         <button type="submit" class="bg-green-900 hover:bg-green-800 text-green-400 px-4 py-2 rounded border border-green-600 transition-colors">Create</button>
       </div>
     </form>

@@ -8,7 +8,7 @@
 <th:block th:replace="~{layout.html :: header}"/>
 <main class="container mx-auto p-4 flex-grow flex items-center justify-center">
   <div class="w-full max-w-4xl">
-    <form th:action="@{/account/edit-{account}(account = ${account})}" th:method="post">
+    <form th:action="@{/accounts/edit-{account}(account = ${account})}" th:method="post">
       <div class="mb-4">
         <h1 class="text-lg sm:text-xl mb-4 terminal-glow">Edit User <strong th:text="${accountForm.username}"/></h1>
         <hr class="border-green-900 mb-4">
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div class="mt-4 flex justify-end space-x-4">
-          <a href="/account" class="bg-gray-800 hover:bg-gray-700 text-green-400 px-4 py-2 rounded border border-green-900 transition-colors inline-block">Cancel</a>
+          <a href="/accounts" class="bg-gray-800 hover:bg-gray-700 text-green-400 px-4 py-2 rounded border border-green-900 transition-colors inline-block">Cancel</a>
           <button type="submit" class="bg-green-900 hover:bg-green-800 text-green-400 px-4 py-2 rounded border border-green-600 transition-colors">Update User</button>
         </div>
       </div>

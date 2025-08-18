@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import reactor.core.publisher.Mono
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/accounts")
 class AccountController(
     private val accountRegistryService: AccountRegistryService,
 ) {
@@ -110,7 +110,7 @@ class AccountController(
     } else {
         Mono.just(accountForm)
             .flatMap { accountRegistryService.addAccount(it.toAccountRequest()) }
-            .map { "redirect:/account" }
+            .map { "redirect:/accounts" }
             .onErrorResume { error ->
                 val errorMessage = when (error) {
                     is UsernameDuplicateException -> "Username already exists. Please choose another."

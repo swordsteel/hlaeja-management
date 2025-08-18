@@ -19,9 +19,9 @@ class NodeController(
     private val deviceRegistryService: DeviceRegistryService,
 ) {
     @GetMapping(
-        "/node",
-        "/node/page-{page}",
-        "/node/page-{page}/show-{show}",
+        "/nodes",
+        "/nodes/page-{page}",
+        "/nodes/page-{page}/show-{show}",
     )
     fun getNodes(
         @PathVariable(required = false) @Min(MIN) page: Int = DEFAULT_PAGE,

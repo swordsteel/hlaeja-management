@@ -3,8 +3,8 @@ package ltd.hlaeja.security.authorize
 import org.springframework.security.config.web.server.ServerHttpSecurity.AuthorizeExchangeSpec
 
 fun AuthorizeExchangeSpec.adminPaths(): AuthorizeExchangeSpec.Access = pathMatchers(
-    "/account/**",
-    "/type/**",
-    "/device/**",
-    "/node/**",
+    "/accounts/**",
+    "/typse/**",
+    "/devices/**",
+    "/nodes/**",
 )
