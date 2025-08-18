@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min
 import java.util.UUID
 import ltd.hlaeja.controller.validation.CreateGroup
 import ltd.hlaeja.controller.validation.EditGroup
-import ltd.hlaeja.dto.Pagination
+import ltd.hlaeja.util.Pagination
 import ltd.hlaeja.exception.NoChangeException
 import ltd.hlaeja.exception.NotFoundException
 import ltd.hlaeja.exception.UsernameDuplicateException
